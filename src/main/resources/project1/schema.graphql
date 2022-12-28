@@ -1,0 +1,78 @@
+type Post{
+    id: Int!
+    title: String!
+    body: String
+    user: User!
+    userId: Int!
+}
+
+type Todo{
+    id: Int!
+    userId: User!
+    title: String!
+    completed: Boolean!
+}
+
+type User{
+    id: Int!
+    name: String!
+    username: String!
+    email: String!
+    phone: String!
+    website: String!
+    company: Company!
+    address: Address!
+    posts: [Post!]!
+}
+
+type Company{
+    catchPhrase: String!
+    name: String!
+    bs: String!
+}
+
+type Address{
+    street: String!
+    suite: String!
+    city: String!
+    zipcode: String!
+}
+
+type Geo{
+    lat: String!
+    lng: String!
+}
+
+type Query{
+    getAllPosts: [Post!]!
+    getPostById(id: Int!): Post
+    getUserById(id: Int!): User
+    getPostsByUserId(id: Int!): [Post!]!
+}
+
+input CreatePostRequest{
+    title: String!
+    body: String!
+    userId: Int!
+}
+
+input UpdatePostRequest{
+    id: Int!
+    title: String!
+    body: String!
+    userId: Int!
+}
+
+type CreatePostResponse{
+    id: Int!
+}
+
+type Mutation{
+    createPost(input: CreatePostRequest!): CreatePostResponse
+    createPostWithTitle(title: String!, userId: Int!): CreatePostResponse
+    updatePost(input: UpdatePostRequest!): Post
+}
+
+type Subscription{
+    noop: Int
+}

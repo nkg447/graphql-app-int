@@ -1,0 +1,35 @@
+mutation{
+    createPostWithTitle(title: "blah", userId: 3){
+        id
+    }
+}
+
+mutation{
+    createPost(input: {
+        title: "blah"
+        body: "qwertyu"
+        userId: 2
+    }){
+        id
+    }
+}
+
+query{
+    getPostById(id: 11){
+        title
+        id
+        user{
+            name
+            posts{
+                title
+                user{
+                    name
+                }
+            }
+        }
+    }
+    getPostsByUserId(id: 1){
+        title
+        body
+    }
+}
