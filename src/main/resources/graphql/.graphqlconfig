@@ -1,0 +1,15 @@
+{
+  "name": "GraphQl Application Integration",
+  "schemaPath": "../project1/schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "project1": {
+        "url": "http://localhost:8080/project1/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": true
+      }
+    }
+  }
+}
