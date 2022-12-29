@@ -2,10 +2,11 @@ package dev.nikunjgupta.graphql.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.nikunjgupta.graphql.Util;
-import dev.nikunjgupta.graphql.processor.GraphqlProvider;
+import dev.nikunjgupta.graphql.processor.IGraphqlProvider;
 import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +19,15 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 @CrossOrigin(origins = "*")
 public class GraphqlController {
-    @RequestMapping(value = "/{id}/graphql", method = POST)
+
+    @Autowired
+    private IGraphqlProvider graphqlProvider;
+
+    @RequestMapping(value = "/{projectId}/graphql", method = POST)
     @ResponseBody
-    public ResponseEntity<Map> getData(@PathVariable String id, @RequestBody Map<String, Object> request) throws JsonProcessingException {
+    public ResponseEntity<Map> getData(@PathVariable String projectId, @RequestBody Map<String, Object> request) throws JsonProcessingException {
         try {
-            GraphQL graphQL = GraphqlProvider.getGraphQLForProject(id);
+            GraphQL graphQL = graphqlProvider.getGraphQLForProject(projectId);
             ExecutionInput input = getExecutionInput(request);
             ExecutionResult executionResult = graphQL.execute(input);
             if (!executionResult.getErrors().isEmpty()) {
