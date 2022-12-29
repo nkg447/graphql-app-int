@@ -13,7 +13,7 @@ public class DefaultStorageService implements IStorageService {
     private IStorage storage;
 
     @Override
-    public void saveFiles(String projectId, SaveFilesRequest request) {
+    public void saveFiles(String projectId, SaveFilesRequest request) throws Exception {
         if (Util.notNullOrEmpty(request.getSchema()))
             storage.setSchema(projectId, request.getSchema());
         if (Util.notNullOrEmpty(request.getRestMappings()))

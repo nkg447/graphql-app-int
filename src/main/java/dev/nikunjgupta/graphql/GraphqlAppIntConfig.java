@@ -1,5 +1,6 @@
 package dev.nikunjgupta.graphql;
 
+import dev.nikunjgupta.graphql.storage.FileStorage;
 import dev.nikunjgupta.graphql.storage.GcpStorage;
 import dev.nikunjgupta.graphql.storage.IStorage;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +21,14 @@ public class GraphqlAppIntConfig {
     @Value( "${gcp.secret.json.file}" )
     private String gcpSecretJsonFile;
 
+    @Value( "${storage.provider}" )
+    private String storageProvider;
+
     @Bean
-    IStorage getStorage() throws IOException {
-        return new GcpStorage();
+    IStorage getStorage() {
+        if("gcp".equalsIgnoreCase(storageProvider))
+            return new GcpStorage();
+        return new FileStorage();
     }
 
     public String getGcpProjectId() {
