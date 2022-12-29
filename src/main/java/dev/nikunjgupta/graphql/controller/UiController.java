@@ -17,7 +17,7 @@ public class UiController {
 
     @RequestMapping(value = "/{projectId}/storage", method = POST)
     @ResponseBody
-    public ResponseEntity saveFiles(@PathVariable String projectId, @RequestBody SaveFilesRequest request) {
+    public ResponseEntity saveFiles(@PathVariable String projectId, @RequestBody SaveFilesRequest request) throws Exception {
         storageService.saveFiles(projectId, request);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }

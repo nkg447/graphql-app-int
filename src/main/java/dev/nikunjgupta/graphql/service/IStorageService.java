@@ -4,5 +4,5 @@ import dev.nikunjgupta.graphql.pojo.SaveFilesRequest;
 
 public interface IStorageService {
 
-    void saveFiles(String projectId, SaveFilesRequest request);
+    void saveFiles(String projectId, SaveFilesRequest request) throws Exception;
 }
