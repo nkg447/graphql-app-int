@@ -42,6 +42,11 @@ public class DefaultGraphqlProvider implements IGraphqlProvider {
         return PROJECTS_GRAPHQL.get(projectId);
     }
 
+    @Override
+    public void reset(String projectId) {
+        PROJECTS_GRAPHQL.remove(projectId);
+    }
+
     private GraphQLSchema generateSchemaForProject(String projectId) throws Exception {
         SchemaParser schemaParser = new SchemaParser();
         TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(new String(storage.getSchema(projectId)));

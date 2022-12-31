@@ -59,6 +59,6 @@ public class FileStorage implements IStorage {
     }
 
     private String basePath() {
-        return this.getClass().getClassLoader().getResource("").getFile();
+        return "./projectData/";
     }
 }
