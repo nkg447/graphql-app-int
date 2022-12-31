@@ -3,13 +3,13 @@ package dev.nikunjgupta.graphql.processor.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestData {
+public class RestMappings {
     private List<Rest> rests = new ArrayList<>();
 
-    public RestData() {
+    public RestMappings() {
     }
 
-    public RestData(List<Rest> list) {
+    public RestMappings(List<Rest> list) {
         this.rests = list;
     }
 

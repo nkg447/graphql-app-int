@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URLEncoder;
 import java.util.Map;
 
 public abstract class AbstractRestDataFetcher implements DataFetcher<Object> {
@@ -27,19 +28,35 @@ public abstract class AbstractRestDataFetcher implements DataFetcher<Object> {
     @Override
     public Object get(DataFetchingEnvironment environment) throws Exception {
 
-        String resourceUrl = getRequestEndpoint(environment);
+        String resourceUrl = getRequestEndpoint(environment) + getQueryParams(environment);
 
         Class type = Map.class;
         if (isArrayTypeField(environment)) {
             type = Map[].class;
         }
 
-        HttpEntity<Object> request = new HttpEntity<>(getRequestBody(environment), rest.getHeaders());
+        HttpEntity<Object> request = new HttpEntity<>(getRequestBody(environment),
+                rest.getHeaders());
 
         ResponseEntity response = REST_TEMPLATE
                 .exchange(resourceUrl, rest.getMethod(), request, type);
 
         return response.getBody();
+    }
+
+    private String getQueryParams(DataFetchingEnvironment environment) {
+        StringBuilder query = new StringBuilder("?");
+        int count = 0;
+        for (String param : getRest().getQueryParams()) {
+            if (environment.getArgument(param) != null) {
+                query.append(count > 0 ? "&" : "")
+                        .append(param)
+                        .append("=")
+                        .append(URLEncoder.encode(environment.getArgument(param).toString()));
+                count++;
+            }
+        }
+        return count > 0 ? query.toString() : "";
     }
 
     protected boolean isArrayTypeField(DataFetchingEnvironment environment) {

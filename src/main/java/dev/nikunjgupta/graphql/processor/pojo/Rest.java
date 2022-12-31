@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 import java.util.Map;
 
 public class Rest {
@@ -17,6 +18,7 @@ public class Rest {
     private HttpMethod method;
     private HttpHeaders headers = new HttpHeaders();
     private String requestBody;
+    private List<String> queryParams;
     @JsonIgnore
     private Template endpointTemplate;
     @JsonIgnore
@@ -81,5 +83,13 @@ public class Rest {
 
     public void setRequestBody(String requestBody) {
         this.requestBody = requestBody;
+    }
+
+    public List<String> getQueryParams() {
+        return queryParams;
+    }
+
+    public void setQueryParams(List<String> queryParams) {
+        this.queryParams = queryParams;
     }
 }
