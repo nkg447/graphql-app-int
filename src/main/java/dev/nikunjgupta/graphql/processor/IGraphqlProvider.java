@@ -4,4 +4,6 @@ import graphql.GraphQL;
 
 public interface IGraphqlProvider {
     GraphQL getGraphQLForProject(String projectName);
+
+    void reset(String projectId);
 }
