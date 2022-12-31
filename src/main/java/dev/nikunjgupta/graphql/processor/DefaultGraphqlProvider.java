@@ -46,14 +46,14 @@ public class DefaultGraphqlProvider implements IGraphqlProvider {
         SchemaParser schemaParser = new SchemaParser();
         TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(new String(storage.getSchema(projectId)));
 
-        RestData restData = getRestData(projectId);
-        Map<String, Rest> nameToRestMap = createNameToRestMap(restData);
-        ResolverData resolverData = getResolverData(projectId);
+        RestMappings restMappings = getRestData(projectId);
+        Map<String, Rest> nameToRestMap = createNameToRestMap(restMappings);
+        ResolverMappings resolverMappings = getResolverData(projectId);
 
         RuntimeWiring.Builder runtimeWritingBuilder = newRuntimeWiring();
 
         runtimeWritingBuilder = runtimeWritingBuilder.type("Query", builder -> {
-            for (QueryResolver resolver : resolverData.getQueryResolvers()) {
+            for (QueryResolver resolver : resolverMappings.getQueryResolvers()) {
                 builder = builder.dataFetcher(resolver.getQuery(),
                         new QueryRestDataFetcher(nameToRestMap.get(resolver.getResolver().getRestName())));
             }
@@ -61,14 +61,14 @@ public class DefaultGraphqlProvider implements IGraphqlProvider {
         });
 
         runtimeWritingBuilder = runtimeWritingBuilder.type("Mutation", builder -> {
-            for (MutationResolver resolver : resolverData.getMutationResolvers()) {
+            for (MutationResolver resolver : resolverMappings.getMutationResolvers()) {
                 builder = builder.dataFetcher(resolver.getMutation(),
                         new MutationRestDataFetcher(nameToRestMap.get(resolver.getResolver().getRestName())));
             }
             return builder;
         });
 
-        for (TypeResolver resolver : resolverData.getTypeResolvers()) {
+        for (TypeResolver resolver : resolverMappings.getTypeResolvers()) {
             runtimeWritingBuilder = runtimeWritingBuilder.type(resolver.getType(), builder -> {
                 for (KeyResolver keyResolver : resolver.getKeyResolvers()) {
                     builder = builder.dataFetcher(keyResolver.getKey(),
@@ -88,29 +88,29 @@ public class DefaultGraphqlProvider implements IGraphqlProvider {
                 .build();
     }
 
-    private Map<String, Rest> createNameToRestMap(RestData restData) {
+    private Map<String, Rest> createNameToRestMap(RestMappings restMappings) {
         Map<String, Rest> map = new HashMap<>();
-        for (Rest rest : restData.getRests()) {
+        for (Rest rest : restMappings.getRests()) {
             map.put(rest.getName(), rest);
         }
         return map;
     }
 
-    private ResolverData getResolverData(String projectId) throws Exception {
+    private ResolverMappings getResolverData(String projectId) throws Exception {
         try {
-            return Util.jsonToObject(new String(storage.getResolverMappings(projectId)), ResolverData.class);
+            return Util.jsonToObject(new String(storage.getResolverMappings(projectId)), ResolverMappings.class);
         } catch (Exception e) {
             throw new Exception(e.getLocalizedMessage());
         }
     }
 
-    private RestData getRestData(String projectId) throws Exception {
+    private RestMappings getRestData(String projectId) throws Exception {
         try {
             List<Rest> list = Util.jsonToObject(
                     new String(storage.getRestMappings(projectId)),
                     new TypeReference<List<Rest>>() {
                     });
-            return new RestData(list);
+            return new RestMappings(list);
         } catch (Exception e) {
             throw new Exception(e.getLocalizedMessage());
         }

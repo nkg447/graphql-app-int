@@ -6,6 +6,10 @@ public class Resolver {
     public Resolver() {
     }
 
+    public Resolver(String restName) {
+        this.restName = restName;
+    }
+
     public String getRestName() {
         return restName;
     }

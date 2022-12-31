@@ -2,12 +2,12 @@ package dev.nikunjgupta.graphql.processor.pojo;
 
 import java.util.List;
 
-public class ResolverData {
+public class ResolverMappings {
     private List<QueryResolver> queryResolvers;
     private List<MutationResolver> mutationResolvers;
     private List<TypeResolver> typeResolvers;
 
-    public ResolverData() {
+    public ResolverMappings() {
     }
 
     public List<QueryResolver> getQueryResolvers() {
