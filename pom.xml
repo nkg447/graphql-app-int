@@ -68,10 +68,11 @@
             <artifactId>spring-graphql-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.github.nkg447</groupId>
             <artifactId>openapi-to-graphql-java</artifactId>
-            <version>master-SNAPSHOT</version>
+            <version>master-6439aea5a2-1</version>
         </dependency>
     </dependencies>
     <repositories>
