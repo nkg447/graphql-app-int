@@ -14,6 +14,7 @@ import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.springframework.http.HttpMethod;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -96,7 +97,8 @@ public class RestMappingGenerator {
 
     private List<String> getQueryParams(Operation operation) {
         List<String> queryParams = new ArrayList<>();
-        for (Parameter parameter : operation.getParameters()) {
+        for (Parameter parameter : Util.nonNullOr(operation.getParameters(),
+                new LinkedList<Parameter>())) {
             queryParams.add(parameter.getName());
         }
         return queryParams;

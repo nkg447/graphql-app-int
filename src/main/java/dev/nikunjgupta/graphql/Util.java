@@ -40,7 +40,15 @@ public final class Util {
     }
 
     public static String objectToJson(Object object) throws JsonProcessingException {
-        String output = OBJECT_MAPPER.writeValueAsString(object);
+        return objectToJson(object, false);
+    }
+
+    public static String objectToJson(Object object, boolean prettify) throws JsonProcessingException {
+        String output = null;
+        if (prettify) {
+            output = OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+        } else
+            output = OBJECT_MAPPER.writeValueAsString(object);
         if (output.startsWith("\"") && output.endsWith("\""))
             output = output.substring(1, output.length() - 1);
         return output;
@@ -48,5 +56,9 @@ public final class Util {
 
     public static boolean notNullOrEmpty(String value) {
         return value != null && value.length() > 0;
+    }
+
+    public static  <T> T nonNullOr(T obj, T substitute) {
+        return obj != null ? obj : substitute;
     }
 }

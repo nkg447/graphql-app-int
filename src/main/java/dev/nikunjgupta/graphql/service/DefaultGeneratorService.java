@@ -18,10 +18,10 @@ public class DefaultGeneratorService implements IGeneratorService {
         SaveFilesRequest saveFilesRequest = new SaveFilesRequest();
         saveFilesRequest.setSchema(getGraphQlSchema(openApiUri));
         RestMappings restMappings = RestMappingGenerator.generateRestMappings(openApiUri);
-        saveFilesRequest.setRestMappings(Util.objectToJson(restMappings.getRests()));
+        saveFilesRequest.setRestMappings(Util.objectToJson(restMappings.getRests(), true));
         ResolverMappings resolverMappings =
                 ResolverMappingGenerator.generateResolverMappings(restMappings);
-        saveFilesRequest.setResolverMappings(Util.objectToJson(resolverMappings));
+        saveFilesRequest.setResolverMappings(Util.objectToJson(resolverMappings, true));
         return saveFilesRequest;
     }
 
