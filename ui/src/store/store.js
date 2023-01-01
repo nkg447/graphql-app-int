@@ -1,19 +1,10 @@
 import { atom } from "jotai";
-const { buildSchema, printSchema, GraphQLSchema } = require("graphql");
+import { printSchema, schemaComposer } from "graphql-compose";
 
-const graphQlSchemaTextAtom = atom("");
+const graphQlSchemaAtom = atom(schemaComposer.buildSchema());
 
-const graphQlSchemaAtom = atom(
-  (get) => {
-    const gqlText = get(graphQlSchemaTextAtom);
-    try {
-      return buildSchema(gqlText);
-    } catch (e) {}
-    return undefined;
-  },
-  (get, set, newGraphQlSchema) => {
-    set(graphQlSchemaTextAtom, printSchema(newGraphQlSchema));
-  }
+const graphQlSchemaTextAtom = atom((get) =>
+  printSchema(get(graphQlSchemaAtom))
 );
 
 const Store = {

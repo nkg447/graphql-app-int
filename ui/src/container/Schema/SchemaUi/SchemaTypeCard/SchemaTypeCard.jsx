@@ -9,28 +9,26 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import {
-  GraphQLObjectType,
-  typeFromAST,
-  parseType,
-  buildSchema,
-  printSchema,
-  GraphQLInt,
-} from "graphql";
+import { schemaComposer } from "graphql-compose";
+import { GraphQLObjectType, GraphQLString } from "graphql";
 import { useAtom } from "jotai";
 import Store from "../../../../store/store";
+import SingleFieldModal from "../../../../component/Modal/SingleFieldModal/SingleFieldModal";
 
 function SchemaTypeField(props) {
-  const { field, onDelete } = props;
+  const { field, onDelete, objectName } = props;
   const name = field.name;
   const [type, setType] = React.useState(field.type.toString());
   const [description, setDescription] = React.useState(field.description);
-  const [graphQlSchema, setGraphQlSchema] = useAtom(Store.graphQlSchemaAtom);
+  const [_, setGraphQlSchema] = useAtom(Store.graphQlSchemaAtom);
 
   const onBlurHandler = () => {
-    field.type = typeFromAST(graphQlSchema, parseType(type));
-    field.description = description;
-    setGraphQlSchema(graphQlSchema);
+    const objectType = schemaComposer.getOTC(objectName);
+    objectType.extendField(name, {
+      description: description,
+      type: type,
+    });
+    setGraphQlSchema(schemaComposer.clone().buildSchema());
   };
   return (
     <Typography
@@ -42,7 +40,7 @@ function SchemaTypeField(props) {
       }}
     >
       <TextField
-        id="outlined-basic"
+        size="small"
         label="Field Name"
         variant="outlined"
         value={name}
@@ -50,7 +48,7 @@ function SchemaTypeField(props) {
         disabled
       />
       <TextField
-        id="outlined-basic"
+        size="small"
         label="GraphQl Type"
         variant="outlined"
         value={type}
@@ -59,7 +57,7 @@ function SchemaTypeField(props) {
         onBlur={onBlurHandler}
       />
       <TextField
-        id="outlined-basic"
+        size="small"
         label="Description"
         variant="outlined"
         value={description}
@@ -76,43 +74,48 @@ function SchemaTypeField(props) {
 SchemaTypeField.propTypes = {
   field: PropTypes.object,
   onDelete: PropTypes.func,
+  objectName: PropTypes.string,
 };
 
 function SchemaTypeCard(props) {
   const { object } = props;
-  const [graphQlSchema, setGraphQlSchema] = useAtom(Store.graphQlSchemaAtom);
+  const [_, setGraphQlSchema] = useAtom(Store.graphQlSchemaAtom);
   const [description, setDescription] = React.useState(object.description);
+  const [openNewFieldModal, setOpenNewFieldModal] = React.useState(false);
+
   const fields = object.getFields();
   const onDeleteHandler = (fieldName) => {
-    delete object.getFields()[fieldName];
-    setGraphQlSchema(graphQlSchema);
+    const objectType = schemaComposer.getOTC(object.name);
+    objectType.removeField(fieldName);
+    setGraphQlSchema(schemaComposer.clone().buildSchema());
   };
+
   const onBlurHandler = () => {
-    object.description = description.length > 0 ? description : undefined;
-    setGraphQlSchema(graphQlSchema);
+    const objectType = schemaComposer.getOTC(object.name);
+    objectType.setDescription(description.length > 0 ? description : undefined);
+    setGraphQlSchema(schemaComposer.clone().buildSchema());
   };
-  const onNewFieldHandler = () => {
-    // const config = object.toConfig();
-    // const modifiedType = new GraphQLObjectType({
-    //   ...config,
-    //   fields: {
-    //     ...config.fields,
-    //     untitled: { type: GraphQLInt },
-    //   },
-    // });
-    // setGraphQlSchema(buildSchema(printSchema(graphQlSchema)));
+
+  const onNewFieldHandler = (name) => {
+    const objectType = schemaComposer.getOTC(object.name);
+    const fieldData = {};
+    fieldData[name] = {
+      type: GraphQLString,
+    };
+    objectType.addFields(fieldData);
+    setGraphQlSchema(schemaComposer.clone().buildSchema());
   };
   return (
     <Box sx={{ minWidth: 275 }} mt={4} maxWidth={"90%"}>
       <Card variant="outlined">
         <React.Fragment>
           <CardContent>
-            <Typography sx={{ fontSize: 14 }} color="text.primary">
+            <Typography component={"h3"} color="text.primary">
               {object.name}
             </Typography>
             <Typography mt={2}>
               <TextField
-                id="outlined-basic"
+                size="small"
                 label="Description"
                 variant="outlined"
                 value={description}
@@ -122,7 +125,6 @@ function SchemaTypeCard(props) {
                 onBlur={onBlurHandler}
                 style={{ width: "100%" }}
                 multiline
-                rows={3}
               />
             </Typography>
             {Object.keys(fields).map((field, key) => (
@@ -130,12 +132,13 @@ function SchemaTypeCard(props) {
                 key={key}
                 field={fields[field]}
                 onDelete={onDeleteHandler}
+                objectName={object.name}
               />
             ))}
           </CardContent>
           <CardActions>
             <IconButton
-              onClick={onNewFieldHandler}
+              onClick={() => setOpenNewFieldModal(true)}
               style={{ float: "right" }}
               aria-label="add"
             >
@@ -144,6 +147,13 @@ function SchemaTypeCard(props) {
           </CardActions>
         </React.Fragment>
       </Card>
+      {openNewFieldModal && (
+        <SingleFieldModal
+          title="Field Name"
+          closeHandler={() => setOpenNewFieldModal(false)}
+          onOk={onNewFieldHandler}
+        />
+      )}
     </Box>
   );
 }

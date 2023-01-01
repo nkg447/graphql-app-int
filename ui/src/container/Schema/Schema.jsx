@@ -5,8 +5,6 @@ import Tabs from "@mui/material/Tabs";
 import Box from "@mui/material/Box";
 import TabPanel from "../../component/TabPanel/TabPanel";
 import SchemaEditor from "./SchemaEditor/SchemaEditor";
-import { useAtom } from "jotai";
-import Store from "../../store/store";
 import SchemaUi from "./SchemaUi/SchemaUi";
 
 const tabIdPrefix = "schema";
@@ -19,7 +17,6 @@ function a11yProps(index) {
 
 function Schema() {
   const [value, setValue] = React.useState(0);
-  const [graphQlSchema] = useAtom(Store.graphQlSchemaAtom);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
