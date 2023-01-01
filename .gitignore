@@ -36,3 +36,4 @@ build/
 
 src/main/resources/application.dev.properties
 src/main/resources/graphql-app-int.json
+*/node_modules/
