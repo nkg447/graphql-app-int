@@ -10,12 +10,12 @@ function SchemaUi(props) {
   if (!graphQlSchema) return <div />;
   const typeMap = graphQlSchema.getTypeMap();
   return (
-    <Typography
-      style={{ overflow: "scroll", height: "75vh" }}
-    >
+    <Typography style={{ overflow: "scroll", height: "75vh" }}>
       {graphQlSchema &&
         Object.keys(typeMap)
           .filter((type) => typeMap[type] instanceof GraphQLObjectType)
+          .filter((type) => !["Query", "Mutation"].includes(type))
+          .filter((type) => !type.startsWith("__"))
           .map((type, key) => (
             <SchemaTypeCard key={key} object={typeMap[type]} />
           ))}
