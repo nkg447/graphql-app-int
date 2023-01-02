@@ -16,6 +16,7 @@ function RestMappingsUi(props) {
         <RestMapping
           updateRestMappings={updateRestMappings}
           mapping={mapping}
+          key={key}
         />
       ))}
     </div>
