@@ -19,28 +19,52 @@ import Store from "../../../../store/store";
 const methods = ["GET", "POST", "PATCH", "PUT"];
 
 function RestMapping(props) {
-  const { mapping } = props;
+  const { mapping, updateRestMappings } = props;
   const [collapsed, setCollapsed] = React.useState(false);
+  const [name, setName] = React.useState(mapping.name);
   const [endpoint, setEndpoint] = React.useState(mapping.endpoint);
   const [method, setMethod] = React.useState(mapping.method);
-  const [headers, setHeaders] = React.useState(JSON.stringify(mapping.headers));
-  const [queryParams, setQueryParams] = React.useState(
-    JSON.stringify(mapping.queryParams)
+  const [headers, setHeaders] = React.useState(
+    JSON.stringify(mapping.headers, null, 2)
   );
-  const [restMappings, setRestMappings] = useAtom(Store.restMappingsAtom);
+  const [queryParams, setQueryParams] = React.useState(
+    JSON.stringify(mapping.queryParams, null, 2)
+  );
+  const [restMappings] = useAtom(Store.restMappingsAtom);
 
   const onBlurHandler = () => {
+    mapping.name = name;
     mapping.endpoint = endpoint;
     mapping.method = method;
-    setRestMappings([...restMappings]);
+    mapping.headers = JSON.parse(headers);
+    mapping.queryParams = JSON.parse(queryParams);
+    updateRestMappings(restMappings);
+  };
+
+  const deleteHandler = () => {
+    const index = restMappings.findIndex((e) => e.name === name);
+    if (index > -1) {
+      restMappings.splice(index, 1);
+    }
+    updateRestMappings(restMappings);
   };
   return (
-    <Box sx={{ minWidth: 275 }} mt={2} maxWidth={"90%"}>
-      <Card variant="outlined">
+    <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
+      <Card variant="outlined" style={{ width: "100%", marginRight: "1rem" }}>
         <React.Fragment>
           <CardHeader
+            title={!collapsed && name}
             titleTypographyProps={{ variant: "h8" }}
-            title={mapping.name}
+            avatar={
+              collapsed && (
+                <TextField
+                  label="Rest Name"
+                  setTo={setName}
+                  value={name}
+                  onBlur={onBlurHandler}
+                />
+              )
+            }
             onClick={() => setCollapsed(!collapsed)}
             action={
               <IconButton
@@ -103,11 +127,17 @@ function RestMapping(props) {
           </Collapse>
         </React.Fragment>
       </Card>
+      <div>
+        <IconButton onClick={deleteHandler} size="medium">
+          <DeleteOutlineOutlinedIcon />
+        </IconButton>
+      </div>
     </Box>
   );
 }
 RestMapping.propTypes = {
   mapping: PropTypes.object.isRequired,
+  updateRestMappings: PropTypes.func
 };
 
 export default RestMapping;

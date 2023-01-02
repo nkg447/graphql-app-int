@@ -8,7 +8,7 @@ function TextField(props) {
     <MuiTextField
       label={label}
       size="small"
-      value={value}
+      value={value ? value : ""}
       variant="outlined"
       onChange={(e) => {
         setTo(e.target.value);

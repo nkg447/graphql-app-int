@@ -1,5 +1,4 @@
 import * as React from "react";
-import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -44,7 +43,6 @@ function SchemaTypeField(props) {
         <TextField
           label="Field Name"
           value={name}
-          style={{ width: "30%" }}
           InputProps={{
             readOnly: true,
           }}
@@ -54,14 +52,12 @@ function SchemaTypeField(props) {
         label="GraphQl Type"
         value={type}
         setTo={setType}
-        style={{ width: "30%" }}
         onBlur={onBlurHandler}
       />
       <TextField
         label="Description"
         value={description}
         setTo={setDescription}
-        style={{ width: "30%" }}
         onBlur={onBlurHandler}
       />
       <IconButton onClick={() => onDelete(field.name)}>
@@ -132,7 +128,6 @@ function SchemaTypeCard(props) {
                 value={description}
                 setTo={setDescription}
                 onBlur={onBlurHandler}
-                style={{ width: "100%" }}
                 multiline
               />
               {Object.keys(fields).map((field, key) => (
