@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Schema from "./container/Schema/Schema";
 import TabPanel from "./component/TabPanel/TabPanel";
+import RestMappings from "./container/RestMappings/RestMappings";
 
 const darkTheme = createTheme({
   palette: {
@@ -37,7 +38,7 @@ function App() {
             aria-label="basic tabs example"
           >
             <Tab label="GraphQL Schema" {...a11yProps(0)} />
-            <Tab label="Item Two" {...a11yProps(1)} />
+            <Tab label="Rest Mappings" {...a11yProps(1)} />
             <Tab label="Item Three" {...a11yProps(2)} />
           </Tabs>
         </Box>
@@ -45,7 +46,7 @@ function App() {
           <Schema />
         </TabPanel>
         <TabPanel idPrefix={tabIdPrefix} value={value} index={1}>
-          Item Two
+          <RestMappings />
         </TabPanel>
         <TabPanel idPrefix={tabIdPrefix} value={value} index={2}>
           Item Three
