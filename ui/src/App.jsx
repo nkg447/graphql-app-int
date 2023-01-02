@@ -15,6 +15,7 @@ import Store from "./store/store";
 import { schemaComposer } from "graphql-compose";
 import { buildSchema } from "graphql";
 import Config from "./config";
+import ResolverMappings from "./container/ResolverMappings/ResolverMappings";
 
 const darkTheme = createTheme({
   palette: {
@@ -34,9 +35,7 @@ function App() {
   const [swaggerUrl, setSwaggerUrl] = React.useState(
     "https://raw.githubusercontent.com/typicode/jsonplaceholder/31e6581ba012d27fd480b052b44001d09e21fdfa/public/swagger.json"
   );
-  const [_, setResolverMappings] = useAtom(
-    Store.resolverMappingsAtom
-  );
+  const [_, setResolverMappings] = useAtom(Store.resolverMappingsAtom);
   const [__, setRestMappings] = useAtom(Store.restMappingsAtom);
   const [___, setGraphQlSchema] = useAtom(Store.graphQlSchemaAtom);
 
@@ -78,9 +77,21 @@ function App() {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="GraphQL Schema" {...a11yProps(0)} />
-              <Tab label="Rest Mappings" {...a11yProps(1)} />
-              <Tab label="Item Three" {...a11yProps(2)} />
+              <Tab
+                style={{ textTransform: "none" }}
+                label="GraphQL Schema"
+                {...a11yProps(0)}
+              />
+              <Tab
+                style={{ textTransform: "none" }}
+                label="Rest Mappings"
+                {...a11yProps(1)}
+              />
+              <Tab
+                style={{ textTransform: "none" }}
+                label="Resolver Mappings"
+                {...a11yProps(2)}
+              />
             </Tabs>
           </Box>
           <TabPanel idPrefix={tabIdPrefix} value={value} index={0}>
@@ -90,7 +101,7 @@ function App() {
             <RestMappings />
           </TabPanel>
           <TabPanel idPrefix={tabIdPrefix} value={value} index={2}>
-            Item Three
+            <ResolverMappings/>
           </TabPanel>
         </Box>
       </div>
