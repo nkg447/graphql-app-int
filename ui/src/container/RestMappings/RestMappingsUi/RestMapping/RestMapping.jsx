@@ -15,6 +15,7 @@ import {
 import TextField from "../../../../component/TextField/TextField";
 import { useAtom } from "jotai";
 import Store from "../../../../store/store";
+import { cloneDeep } from "lodash";
 
 const methods = ["GET", "POST", "PATCH", "PUT"];
 
@@ -24,6 +25,7 @@ function RestMapping(props) {
   const [name, setName] = React.useState(mapping.name);
   const [endpoint, setEndpoint] = React.useState(mapping.endpoint);
   const [method, setMethod] = React.useState(mapping.method);
+  const [requestBody, setRequestBody] = React.useState(mapping.requestBody);
   const [headers, setHeaders] = React.useState(
     JSON.stringify(mapping.headers, null, 2)
   );
@@ -31,13 +33,35 @@ function RestMapping(props) {
     JSON.stringify(mapping.queryParams, null, 2)
   );
   const [restMappings] = useAtom(Store.restMappingsAtom);
+  const [resolverMappings, setResolverMappings] = useAtom(
+    Store.resolverMappingsAtom
+  );
+
+  const updateRestNameInResolverMappings = (oldName, newName) => {
+    resolverMappings.queryResolvers
+      .filter((qr) => qr.resolver.restName === oldName)
+      .forEach((qr) => (qr.resolver.restName = newName));
+    resolverMappings.mutationResolvers
+      .filter((mr) => mr.resolver.restName === oldName)
+      .forEach((mr) => (mr.resolver.restName = newName));
+    resolverMappings.typeResolvers.forEach((tr) => {
+      tr.keyResolvers
+        .filter((kr) => kr.restName === oldName)
+        .forEach((kr) => (kr.restName = newName));
+    });
+    setResolverMappings(cloneDeep(resolverMappings));
+  };
 
   const onBlurHandler = () => {
-    mapping.name = name;
+    if (name !== mapping.name) {
+      updateRestNameInResolverMappings(mapping.name, name);
+      mapping.name = name;
+    }
     mapping.endpoint = endpoint;
     mapping.method = method;
     mapping.headers = JSON.parse(headers);
     mapping.queryParams = JSON.parse(queryParams);
+    mapping.requestBody = requestBody;
     updateRestMappings(restMappings);
   };
 
@@ -65,7 +89,6 @@ function RestMapping(props) {
                 />
               )
             }
-            onClick={() => setCollapsed(!collapsed)}
             action={
               <IconButton
                 onClick={() => setCollapsed(!collapsed)}
@@ -123,6 +146,17 @@ function RestMapping(props) {
                   multiline
                 />
               </Typography>
+              {method !== "GET" && (
+                <TextField
+                  label="Request Body"
+                  value={requestBody}
+                  setTo={setRequestBody}
+                  onBlur={onBlurHandler}
+                  multiline
+                  rows={2}
+                  fullwidth
+                />
+              )}
             </CardContent>
           </Collapse>
         </React.Fragment>
@@ -137,7 +171,7 @@ function RestMapping(props) {
 }
 RestMapping.propTypes = {
   mapping: PropTypes.object.isRequired,
-  updateRestMappings: PropTypes.func
+  updateRestMappings: PropTypes.func,
 };
 
 export default RestMapping;
