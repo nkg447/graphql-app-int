@@ -5,6 +5,7 @@ import TabPanel from "../../component/TabPanel/TabPanel";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import ResolverMappingsEditor from "./ResolverMappingsEditor/ResolverMappingsEditor";
+import ResolverMappingsUi from "./ResolverMappingsUi/ResolverMappingsUi";
 
 const tabIdPrefix = "resolvermappings";
 function a11yProps(index) {
@@ -33,7 +34,7 @@ function ResolverMappings(props) {
           </Tabs>
         </Box>
         <TabPanel idPrefix={tabIdPrefix} value={value} index={0}>
-          
+          <ResolverMappingsUi/>
         </TabPanel>
         <TabPanel idPrefix={tabIdPrefix} value={value} index={1}>
           <ResolverMappingsEditor/>
