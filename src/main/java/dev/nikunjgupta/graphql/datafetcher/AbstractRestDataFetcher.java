@@ -30,6 +30,7 @@ public abstract class AbstractRestDataFetcher implements DataFetcher<Object> {
 
         String resourceUrl = getRequestEndpoint(environment) + getQueryParams(environment);
 
+        // TODO create dynamic type resolver (eg....array of array)
         Class type = Map.class;
         if (isArrayTypeField(environment)) {
             type = Map[].class;
@@ -106,6 +107,7 @@ public abstract class AbstractRestDataFetcher implements DataFetcher<Object> {
     }
 
     public Object getDataModelForRequestBody(DataFetchingEnvironment environment) {
+        // TODO check for typeRestDataFetcher ? works(then fix) or not
         return environment.getArguments();
     }
 

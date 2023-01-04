@@ -1,0 +1,109 @@
+{
+  "queryResolvers": [
+    {
+      "query": "getPosts",
+      "resolver": {
+        "restName": "getPosts"
+      }
+    },
+    {
+      "query": "get_posts__id_",
+      "resolver": {
+        "restName": "get_posts__id_"
+      }
+    },
+    {
+      "query": "get_posts__id__comments",
+      "resolver": {
+        "restName": "get_posts__id__comments"
+      }
+    },
+    {
+      "query": "getComments",
+      "resolver": {
+        "restName": "getComments"
+      }
+    },
+    {
+      "query": "getComment",
+      "resolver": {
+        "restName": "getComment"
+      }
+    },
+    {
+      "query": "getAlbums",
+      "resolver": {
+        "restName": "getAlbums"
+      }
+    },
+    {
+      "query": "get_albums__id_",
+      "resolver": {
+        "restName": "get_albums__id_"
+      }
+    },
+    {
+      "query": "get_albums__id__photos",
+      "resolver": {
+        "restName": "get_albums__id__photos"
+      }
+    },
+    {
+      "query": "getPhotos",
+      "resolver": {
+        "restName": "getPhotos"
+      }
+    },
+    {
+      "query": "getPhoto",
+      "resolver": {
+        "restName": "getPhoto"
+      }
+    },
+    {
+      "query": "getTodos",
+      "resolver": {
+        "restName": "getTodos"
+      }
+    },
+    {
+      "query": "getTodo",
+      "resolver": {
+        "restName": "getTodo"
+      }
+    },
+    {
+      "query": "getUsers",
+      "resolver": {
+        "restName": "getUsers"
+      }
+    },
+    {
+      "query": "getUser",
+      "resolver": {
+        "restName": "getUser"
+      }
+    }
+  ],
+  "mutationResolvers": [],
+  "typeResolvers": [
+    {
+      "type": "Post",
+      "keyResolvers": [
+        {
+          "key": "user",
+          "restName": "getUserByUserId"
+        }
+      ]
+    },
+    {
+      "type": "User",
+      "keyResolvers": [
+        {
+          "key": "posts",
+          "restName": "getPostsByUserId"
+        }
+      ]
+    }
+  ]
+}

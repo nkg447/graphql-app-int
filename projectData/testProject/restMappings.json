@@ -1,0 +1,144 @@
+[
+  {
+    "name": "getPosts",
+    "endpoint": "https://jsonplaceholder.typicode.com//posts",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id",
+      "userId"
+    ]
+  },
+  {
+    "name": "getPostsByUserId",
+    "endpoint": "https://jsonplaceholder.typicode.com/users/${id}/posts",
+    "method": "GET"
+  },
+  {
+    "name": "get_posts__id_",
+    "endpoint": "https://jsonplaceholder.typicode.com//posts/${id}",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id"
+    ]
+  },
+  {
+    "name": "get_posts__id__comments",
+    "endpoint": "https://jsonplaceholder.typicode.com//posts/${id}/comments",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id"
+    ]
+  },
+  {
+    "name": "getComments",
+    "endpoint": "https://jsonplaceholder.typicode.com//comments",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id",
+      "postId"
+    ]
+  },
+  {
+    "name": "getComment",
+    "endpoint": "https://jsonplaceholder.typicode.com//comments/${id}",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id"
+    ]
+  },
+  {
+    "name": "getAlbums",
+    "endpoint": "https://jsonplaceholder.typicode.com//albums",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id",
+      "userId"
+    ]
+  },
+  {
+    "name": "get_albums__id_",
+    "endpoint": "https://jsonplaceholder.typicode.com//albums/${id}",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id"
+    ]
+  },
+  {
+    "name": "get_albums__id__photos",
+    "endpoint": "https://jsonplaceholder.typicode.com//albums/${id}/photos",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id"
+    ]
+  },
+  {
+    "name": "getPhotos",
+    "endpoint": "https://jsonplaceholder.typicode.com//photos",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id",
+      "albumId"
+    ]
+  },
+  {
+    "name": "getPhoto",
+    "endpoint": "https://jsonplaceholder.typicode.com//photos/${id}",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id"
+    ]
+  },
+  {
+    "name": "getTodos",
+    "endpoint": "https://jsonplaceholder.typicode.com//todos",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id",
+      "userId"
+    ]
+  },
+  {
+    "name": "getTodo",
+    "endpoint": "https://jsonplaceholder.typicode.com//todos/${id}",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id"
+    ]
+  },
+  {
+    "name": "getUsers",
+    "endpoint": "https://jsonplaceholder.typicode.com//users",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id",
+      "email"
+    ]
+  },
+  {
+    "name": "getUser",
+    "endpoint": "https://jsonplaceholder.typicode.com//users/${id}",
+    "method": "GET",
+    "headers": {},
+    "queryParams": [
+      "id"
+    ]
+  },
+  {
+    "name": "getUserByUserId",
+    "endpoint": "https://jsonplaceholder.typicode.com/users/${userId}",
+    "method": "GET"
+  }
+]
