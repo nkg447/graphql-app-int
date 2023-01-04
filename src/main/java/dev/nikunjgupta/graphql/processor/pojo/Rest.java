@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class Rest {
     private HttpMethod method;
     private HttpHeaders headers = new HttpHeaders();
     private String requestBody;
-    private List<String> queryParams;
+    private List<String> queryParams = new ArrayList<>();
     @JsonIgnore
     private Template endpointTemplate;
     @JsonIgnore

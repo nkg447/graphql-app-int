@@ -1,0 +1,15 @@
+
+query{
+    getPosts(id: 1){
+        body
+        user {
+            username
+            address {
+                city
+            }
+            posts {
+                id
+            }
+        }
+    }
+}
