@@ -111,7 +111,7 @@ function MutationResolvers(props) {
       updateResolverMappings();
     }
   };
-  if (mutationResolvers.length == 0) return null;
+  if (mutationResolvers.length === 0) return null;
   return (
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
       <Card style={{ width: "100%" }}>
@@ -138,6 +138,7 @@ function MutationResolvers(props) {
               deleteHandler={mutationResolverDeleteHandler}
             />
           ))}
+          <div style={{ height: "1rem" }}></div>
         </Collapse>
       </Card>
     </Box>
