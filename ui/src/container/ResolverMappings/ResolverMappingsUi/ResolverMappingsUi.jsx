@@ -3,6 +3,7 @@ import { useAtom } from "jotai";
 import Store from "../../../store/store";
 import QueryResolvers from "./QueryResolvers/QueryResolvers";
 import { cloneDeep } from "lodash";
+import MutationResolvers from "./MutationResolvers/MutationResolvers";
 
 function ResolverMappingsUi(props) {
   const [resolverMappings, setResolverMappings] = useAtom(
@@ -17,6 +18,10 @@ function ResolverMappingsUi(props) {
     <div>
       <QueryResolvers
         queryResolvers={resolverMappings.queryResolvers}
+        updateResolverMappings={updateResolverMappings}
+      />
+      <MutationResolvers
+        mutationResolvers={resolverMappings.mutationResolvers}
         updateResolverMappings={updateResolverMappings}
       />
     </div>
