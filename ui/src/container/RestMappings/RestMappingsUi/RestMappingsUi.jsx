@@ -12,11 +12,11 @@ function RestMappingsUi(props) {
 
   return (
     <div style={{ overflow: "scroll", height: "75vh" }}>
-      {restMappings.map((mapping, key) => (
+      {restMappings.map((mapping) => (
         <RestMapping
           updateRestMappings={updateRestMappings}
           mapping={mapping}
-          key={key}
+          key={mapping.name}
         />
       ))}
     </div>

@@ -130,9 +130,9 @@ function SchemaTypeCard(props) {
                 onBlur={onBlurHandler}
                 multiline
               />
-              {Object.keys(fields).map((field, key) => (
+              {Object.keys(fields).map((field) => (
                 <SchemaTypeField
-                  key={key}
+                  key={field}
                   field={fields[field]}
                   onDelete={onDeleteHandler}
                   objectName={object.name}
