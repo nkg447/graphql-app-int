@@ -110,7 +110,7 @@ function QueryResolvers(props) {
       updateResolverMappings();
     }
   };
-  if (queryResolvers.length == 0) return null;
+  if (queryResolvers.length === 0) return null;
   return (
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
       <Card style={{ width: "100%" }}>
@@ -137,6 +137,7 @@ function QueryResolvers(props) {
               deleteHandler={queryResolverDeleteHandler}
             />
           ))}
+          <div style={{ height: "1rem" }}></div>
         </Collapse>
       </Card>
     </Box>

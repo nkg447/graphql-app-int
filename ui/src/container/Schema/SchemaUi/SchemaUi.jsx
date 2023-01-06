@@ -15,9 +15,7 @@ function SchemaUi(props) {
           .filter((type) => typeMap[type] instanceof GraphQLObjectType)
           .filter((type) => !["Query", "Mutation"].includes(type))
           .filter((type) => !type.startsWith("__"))
-          .map((type) => (
-            <SchemaTypeCard key={type} object={typeMap[type]} />
-          ))}
+          .map((type) => <SchemaTypeCard key={type} object={typeMap[type]} />)}
     </div>
   );
 }

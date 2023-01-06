@@ -4,6 +4,7 @@ import Store from "../../../store/store";
 import QueryResolvers from "./QueryResolvers/QueryResolvers";
 import { cloneDeep } from "lodash";
 import MutationResolvers from "./MutationResolvers/MutationResolvers";
+import TypeResolvers from "./TypeResolvers/TypeResolvers";
 
 function ResolverMappingsUi(props) {
   const [resolverMappings, setResolverMappings] = useAtom(
@@ -22,6 +23,10 @@ function ResolverMappingsUi(props) {
       />
       <MutationResolvers
         mutationResolvers={resolverMappings.mutationResolvers}
+        updateResolverMappings={updateResolverMappings}
+      />
+      <TypeResolvers
+        typeResolvers={resolverMappings.typeResolvers}
         updateResolverMappings={updateResolverMappings}
       />
     </div>
