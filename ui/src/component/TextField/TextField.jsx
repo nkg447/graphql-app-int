@@ -11,7 +11,7 @@ function TextField(props) {
       value={value ? value : ""}
       variant="outlined"
       onChange={(e) => {
-        setTo(e.target.value);
+        if (setTo) setTo(e.target.value);
       }}
       margin={"dense"}
       style={{ marginRight: "1rem", width: "100%", ...style }}

@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import { useAtom } from "jotai";
 import Store from "../../../../store/store";
 import {
+  Autocomplete,
   Card,
   CardContent,
   CardHeader,
@@ -16,17 +17,22 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import TextField from "../../../../component/TextField/TextField";
 
-function QueryResolver(props) {
-  const { queryResolver, restMappings, updateResolverMappings, deleteHandler } =
-    props;
-  const [query, setQuery] = React.useState(queryResolver.query);
+function MutationResolver(props) {
+  const {
+    mutationResolver,
+    restMappings,
+    updateResolverMappings,
+    deleteHandler,
+  } = props;
+  const [mutation, setMutation] = React.useState(mutationResolver.mutation);
   const [restName, setRestName] = React.useState(
-    queryResolver.resolver.restName
+    mutationResolver.resolver.restName
   );
   const [collapsed, setCollapsed] = React.useState(false);
   const onBlurHandler = () => {
-    queryResolver.query = query;
-    queryResolver.resolver.restName = restName;
+    debugger;
+    mutationResolver.mutation = mutation;
+    mutationResolver.resolver.restName = restName;
     updateResolverMappings();
   };
   return (
@@ -34,14 +40,14 @@ function QueryResolver(props) {
       <Card variant="outlined" style={{ width: "100%", marginRight: "1rem" }}>
         <React.Fragment>
           <CardHeader
-            title={!collapsed && query}
+            title={!collapsed && mutation}
             titleTypographyProps={{ variant: "h8" }}
             avatar={
               collapsed && (
                 <TextField
-                  label="Query Name"
-                  setTo={setQuery}
-                  value={query}
+                  label="Mutation Name"
+                  setTo={setMutation}
+                  value={mutation}
                   onBlur={onBlurHandler}
                 />
               )
@@ -78,35 +84,35 @@ function QueryResolver(props) {
         </React.Fragment>
       </Card>
       <div>
-        <IconButton onClick={() => deleteHandler(query)} size="medium">
+        <IconButton onClick={() => deleteHandler(mutation)} size="medium">
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </div>
     </Box>
   );
 }
-QueryResolver.propTypes = {
-  queryResolver: PropTypes.object.isRequired,
+MutationResolver.propTypes = {
+  mutationResolver: PropTypes.object.isRequired,
   restMappings: PropTypes.array.isRequired,
   updateResolverMappings: PropTypes.func,
   deleteHandler: PropTypes.func,
 };
 
-function QueryResolvers(props) {
-  const { queryResolvers, updateResolverMappings } = props;
+function MutationResolvers(props) {
+  const { mutationResolvers, updateResolverMappings } = props;
   const [restMappings] = useAtom(Store.restMappingsAtom);
   const [collapsed, setCollapsed] = React.useState(false);
-  const queryResolverDeleteHandler = (query) => {
-    const index = queryResolvers.findIndex((e) => e.query === query);
+  const mutationResolverDeleteHandler = (mutation) => {
+    const index = mutationResolvers.findIndex((e) => e.mutation === mutation);
     if (index > -1) {
-      queryResolvers.splice(index, 1);
+      mutationResolvers.splice(index, 1);
       updateResolverMappings();
     }
   };
   return (
     <div>
       <Typography color="text.primary">
-        Query Resolvers
+        Mutation Resolvers
         <IconButton
           onClick={() => setCollapsed(!collapsed)}
           aria-label="expand"
@@ -117,22 +123,22 @@ function QueryResolvers(props) {
       </Typography>
 
       <Collapse in={collapsed} timeout="auto" unmountOnExit>
-        {queryResolvers.map((e, k) => (
-          <QueryResolver
+        {mutationResolvers.map((e, k) => (
+          <MutationResolver
             restMappings={restMappings}
-            queryResolver={e}
+            mutationResolver={e}
             key={k}
             updateResolverMappings={updateResolverMappings}
-            deleteHandler={queryResolverDeleteHandler}
+            deleteHandler={mutationResolverDeleteHandler}
           />
         ))}
       </Collapse>
     </div>
   );
 }
-QueryResolvers.propTypes = {
-  queryResolvers: PropTypes.array.isRequired,
+MutationResolvers.propTypes = {
+  mutationResolvers: PropTypes.array.isRequired,
   updateResolverMappings: PropTypes.func,
 };
 
-export default QueryResolvers;
+export default MutationResolvers;
