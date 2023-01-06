@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import { useAtom } from "jotai";
 import Store from "../../../../store/store";
 import {
+  Autocomplete,
   Card,
   CardContent,
   CardHeader,
@@ -24,6 +25,11 @@ function QueryResolver(props) {
     queryResolver.resolver.restName
   );
   const [collapsed, setCollapsed] = React.useState(false);
+  React.useEffect(() => {
+    if (restName !== queryResolver.resolver.restName) {
+      onBlurHandler();
+    }
+  }, [restName]);
   const onBlurHandler = () => {
     queryResolver.query = query;
     queryResolver.resolver.restName = restName;
@@ -31,7 +37,10 @@ function QueryResolver(props) {
   };
   return (
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
-      <Card variant="outlined" style={{ width: "100%", marginRight: "1rem" }}>
+      <Card
+        variant="outlined"
+        style={{ width: "100%", marginLeft: "1rem" }}
+      >
         <React.Fragment>
           <CardHeader
             title={!collapsed && query}
@@ -65,9 +74,7 @@ function QueryResolver(props) {
               <Autocomplete
                 disablePortal
                 options={restMappings.map((e) => e.name)}
-                onChange={(e, value) => {
-                  setRestName(value);
-                }}
+                onChange={(e, value) => setRestName(value)}
                 value={restName}
                 renderInput={(params) => (
                   <TextField label="Rest Mapping" {...params} />
@@ -77,7 +84,7 @@ function QueryResolver(props) {
           </Collapse>
         </React.Fragment>
       </Card>
-      <div>
+      <div style={{margin: "0rem 1rem"}}>
         <IconButton onClick={() => deleteHandler(query)} size="medium">
           <DeleteOutlineOutlinedIcon />
         </IconButton>
@@ -103,31 +110,36 @@ function QueryResolvers(props) {
       updateResolverMappings();
     }
   };
+  if (queryResolvers.length == 0) return null;
   return (
-    <div>
-      <Typography color="text.primary">
-        Query Resolvers
-        <IconButton
-          onClick={() => setCollapsed(!collapsed)}
-          aria-label="expand"
-          size="small"
-        >
-          {collapsed ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-        </IconButton>
-      </Typography>
-
-      <Collapse in={collapsed} timeout="auto" unmountOnExit>
-        {queryResolvers.map((e, k) => (
-          <QueryResolver
-            restMappings={restMappings}
-            queryResolver={e}
-            key={k}
-            updateResolverMappings={updateResolverMappings}
-            deleteHandler={queryResolverDeleteHandler}
-          />
-        ))}
-      </Collapse>
-    </div>
+    <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
+      <Card style={{ width: "100%" }}>
+        <CardHeader
+          title="Query Resolvers"
+          titleTypographyProps={{ variant: "h6" }}
+          action={
+            <IconButton
+              onClick={() => setCollapsed(!collapsed)}
+              aria-label="expand"
+              size="small"
+            >
+              {collapsed ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          }
+        />
+        <Collapse in={collapsed} timeout="auto" unmountOnExit>
+          {queryResolvers.map((resolver) => (
+            <QueryResolver
+              restMappings={restMappings}
+              queryResolver={resolver}
+              key={resolver.query}
+              updateResolverMappings={updateResolverMappings}
+              deleteHandler={queryResolverDeleteHandler}
+            />
+          ))}
+        </Collapse>
+      </Card>
+    </Box>
   );
 }
 QueryResolvers.propTypes = {

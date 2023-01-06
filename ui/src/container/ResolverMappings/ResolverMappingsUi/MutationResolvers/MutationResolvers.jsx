@@ -29,15 +29,19 @@ function MutationResolver(props) {
     mutationResolver.resolver.restName
   );
   const [collapsed, setCollapsed] = React.useState(false);
+  React.useEffect(() => {
+    if (restName !== mutationResolver.resolver.restName) {
+      onBlurHandler();
+    }
+  }, [restName]);
   const onBlurHandler = () => {
-    debugger;
     mutationResolver.mutation = mutation;
     mutationResolver.resolver.restName = restName;
     updateResolverMappings();
   };
   return (
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
-      <Card variant="outlined" style={{ width: "100%", marginRight: "1rem" }}>
+      <Card variant="outlined" style={{ width: "100%", marginLeft: "1rem" }}>
         <React.Fragment>
           <CardHeader
             title={!collapsed && mutation}
@@ -71,9 +75,7 @@ function MutationResolver(props) {
               <Autocomplete
                 disablePortal
                 options={restMappings.map((e) => e.name)}
-                onChange={(e, value) => {
-                  setRestName(value);
-                }}
+                onChange={(e, value) => setRestName(value)}
                 value={restName}
                 renderInput={(params) => (
                   <TextField label="Rest Mapping" {...params} />
@@ -83,7 +85,7 @@ function MutationResolver(props) {
           </Collapse>
         </React.Fragment>
       </Card>
-      <div>
+      <div style={{ margin: "0rem 1rem" }}>
         <IconButton onClick={() => deleteHandler(mutation)} size="medium">
           <DeleteOutlineOutlinedIcon />
         </IconButton>
@@ -109,31 +111,36 @@ function MutationResolvers(props) {
       updateResolverMappings();
     }
   };
+  if (mutationResolvers.length == 0) return null;
   return (
-    <div>
-      <Typography color="text.primary">
-        Mutation Resolvers
-        <IconButton
-          onClick={() => setCollapsed(!collapsed)}
-          aria-label="expand"
-          size="small"
-        >
-          {collapsed ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-        </IconButton>
-      </Typography>
-
-      <Collapse in={collapsed} timeout="auto" unmountOnExit>
-        {mutationResolvers.map((e, k) => (
-          <MutationResolver
-            restMappings={restMappings}
-            mutationResolver={e}
-            key={k}
-            updateResolverMappings={updateResolverMappings}
-            deleteHandler={mutationResolverDeleteHandler}
-          />
-        ))}
-      </Collapse>
-    </div>
+    <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
+      <Card style={{ width: "100%" }}>
+        <CardHeader
+          title="Mutation Resolvers"
+          titleTypographyProps={{ variant: "h6" }}
+          action={
+            <IconButton
+              onClick={() => setCollapsed(!collapsed)}
+              aria-label="expand"
+              size="small"
+            >
+              {collapsed ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          }
+        />
+        <Collapse in={collapsed} timeout="auto" unmountOnExit>
+          {mutationResolvers.map((resolver) => (
+            <MutationResolver
+              restMappings={restMappings}
+              mutationResolver={resolver}
+              key={resolver.mutation}
+              updateResolverMappings={updateResolverMappings}
+              deleteHandler={mutationResolverDeleteHandler}
+            />
+          ))}
+        </Collapse>
+      </Card>
+    </Box>
   );
 }
 MutationResolvers.propTypes = {
