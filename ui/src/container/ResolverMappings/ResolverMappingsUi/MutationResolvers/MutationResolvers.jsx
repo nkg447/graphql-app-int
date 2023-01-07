@@ -41,21 +41,11 @@ function MutationResolver(props) {
   };
   return (
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
-      <Card variant="outlined" style={{ width: "100%", marginLeft: "1rem" }}>
+      <Card variant="outlined" style={{ width: "100%", margin: "0rem 1rem" }}>
         <React.Fragment>
           <CardHeader
-            title={!collapsed && mutation}
+            title={mutation}
             titleTypographyProps={{ variant: "h8" }}
-            avatar={
-              collapsed && (
-                <TextField
-                  label="Mutation Name"
-                  setTo={setMutation}
-                  value={mutation}
-                  onBlur={onBlurHandler}
-                />
-              )
-            }
             action={
               <IconButton
                 onClick={() => setCollapsed(!collapsed)}
@@ -85,11 +75,6 @@ function MutationResolver(props) {
           </Collapse>
         </React.Fragment>
       </Card>
-      <div style={{ margin: "0rem 1rem" }}>
-        <IconButton onClick={() => deleteHandler(mutation)} size="medium">
-          <DeleteOutlineOutlinedIcon />
-        </IconButton>
-      </div>
     </Box>
   );
 }

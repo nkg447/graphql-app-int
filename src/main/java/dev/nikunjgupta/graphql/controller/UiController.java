@@ -31,8 +31,13 @@ public class UiController {
     @ResponseBody
     public ResponseEntity<SaveFilesRequest> getSchema(@PathVariable String projectId,
                                                       @RequestParam String url) throws Exception {
-        SaveFilesRequest request = generatorService.generateDefaultSaveFilesRequest(url);
-        storageService.saveFiles(projectId, request);
+        SaveFilesRequest request=null;
+        if(url!=null && !url.isEmpty()){
+            request = generatorService.generateDefaultSaveFilesRequest(url);
+            storageService.saveFiles(projectId, request);
+        }else{
+            request = storageService.getFiles(projectId);
+        }
         return new ResponseEntity<>(request, HttpStatus.ACCEPTED);
     }
 }
