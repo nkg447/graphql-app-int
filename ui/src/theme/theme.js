@@ -12,6 +12,6 @@ export default {
   },
   dark: {
     theme: DarkTheme,
-    editorTheme: "terminal",
+    editorTheme: "monokai",
   },
 };

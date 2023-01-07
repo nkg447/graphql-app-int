@@ -1,20 +1,9 @@
 import * as React from "react";
-import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import { useAtom } from "jotai";
 import Store from "../../../../store/store";
-import {
-  Autocomplete,
-  Card,
-  CardContent,
-  CardHeader,
-  Collapse,
-  IconButton,
-} from "@mui/material";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Autocomplete } from "@mui/material";
 import TextField from "../../../../component/TextField/TextField";
 import CollapsableCard from "../../../../component/CollapsableCard/CollapsableCard";
 
@@ -22,7 +11,6 @@ function KeyResolver(props) {
   const { keyResolver, restMappings, updateStore } = props;
   const [key, setKey] = React.useState(keyResolver.key);
   const [restName, setRestName] = React.useState(keyResolver.restName);
-  const [collapsed, setCollapsed] = React.useState(false);
   React.useEffect(() => {
     if (restName !== keyResolver.restName) {
       onBlurHandler();
@@ -66,7 +54,6 @@ function TypeResolver(props) {
   const { typeResolver, restMappings, updateResolverMappings, deleteHandler } =
     props;
   const [type, setType] = React.useState(typeResolver.type);
-  const [collapsed, setCollapsed] = React.useState(false);
   const { keyResolvers } = typeResolver;
   const onBlurHandler = () => {
     typeResolver.type = type;
@@ -89,6 +76,7 @@ function TypeResolver(props) {
             keyResolver={keyResolver}
             restMappings={restMappings}
             updateStore={onBlurHandler}
+            key={keyResolver.key}
           />
         ))}
       </CollapsableCard>
@@ -106,7 +94,6 @@ TypeResolver.propTypes = {
 function TypeResolvers(props) {
   const { typeResolvers, updateResolverMappings } = props;
   const [restMappings] = useAtom(Store.restMappingsAtom);
-  const [collapsed, setCollapsed] = React.useState(false);
   const typeResolverDeleteHandler = (type) => {
     const index = typeResolvers.findIndex((e) => e.type === type);
     if (index > -1) {

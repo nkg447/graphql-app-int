@@ -9,7 +9,6 @@ import { GraphQLObjectType, GraphQLString } from "graphql";
 import { useAtom } from "jotai";
 import Store from "../../../../store/store";
 import SingleFieldModal from "../../../../component/Modal/SingleFieldModal/SingleFieldModal";
-import { Tooltip } from "@mui/material";
 import TextField from "../../../../component/TextField/TextField";
 import CollapsableCard from "../../../../component/CollapsableCard/CollapsableCard";
 
@@ -36,15 +35,14 @@ function SchemaTypeField(props) {
         justifyContent: "space-between",
       }}
     >
-      <Tooltip title="Field Name cannot be changed. You can delete and create a new field with the modified name. Or you can change it from the schema text editor">
-        <TextField
-          label="Field Name"
-          value={name}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </Tooltip>
+      <TextField
+        label="Field Name"
+        value={name}
+        InputProps={{
+          readOnly: true,
+        }}
+        tooltip="Field Name cannot be changed. You can delete and create a new field with the modified name. Or you can change it from the schema text editor"
+      />
       <TextField
         label="GraphQl Type"
         value={type}
