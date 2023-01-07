@@ -41,7 +41,7 @@ function CollapsableCard(props) {
         <React.Fragment>
           <CardHeader
             title={(!collapsed || !setTitle) && cardTitle}
-            titleTypographyProps={{ variant: "h8" }}
+            titleTypographyProps={{ variant: "h8", color: "secondary.main" }}
             {...cardHeaderProps}
             action={
               <IconButton

@@ -106,7 +106,7 @@ function TypeResolvers(props) {
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
       <CollapsableCard
         title="Type Resolvers"
-        titleTypographyProps={{ variant: "h6" }}
+        titleTypographyProps={{ variant: "h6", color: "primary.main" }}
       >
         {typeResolvers.map((resolver) => (
           <TypeResolver
