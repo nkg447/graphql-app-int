@@ -31,7 +31,6 @@ function QueryResolver(props) {
     }
   }, [restName]);
   const onBlurHandler = () => {
-    queryResolver.query = query;
     queryResolver.resolver.restName = restName;
     updateResolverMappings();
   };
@@ -39,22 +38,12 @@ function QueryResolver(props) {
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
       <Card
         variant="outlined"
-        style={{ width: "100%", marginLeft: "1rem" }}
+        style={{ width: "100%", margin: "0rem 1rem" }}
       >
         <React.Fragment>
           <CardHeader
-            title={!collapsed && query}
+            title={query}
             titleTypographyProps={{ variant: "h8" }}
-            avatar={
-              collapsed && (
-                <TextField
-                  label="Query Name"
-                  setTo={setQuery}
-                  value={query}
-                  onBlur={onBlurHandler}
-                />
-              )
-            }
             action={
               <IconButton
                 onClick={() => setCollapsed(!collapsed)}
@@ -84,11 +73,6 @@ function QueryResolver(props) {
           </Collapse>
         </React.Fragment>
       </Card>
-      <div style={{margin: "0rem 1rem"}}>
-        <IconButton onClick={() => deleteHandler(query)} size="medium">
-          <DeleteOutlineOutlinedIcon />
-        </IconButton>
-      </div>
     </Box>
   );
 }

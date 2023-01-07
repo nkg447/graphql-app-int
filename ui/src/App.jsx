@@ -33,7 +33,7 @@ function a11yProps(index) {
 function App() {
   const [value, setValue] = React.useState(0);
   const [swaggerUrl, setSwaggerUrl] = React.useState(
-    "https://raw.githubusercontent.com/typicode/jsonplaceholder/31e6581ba012d27fd480b052b44001d09e21fdfa/public/swagger.json"
+    ""
   );
   const [_, setResolverMappings] = useAtom(Store.resolverMappingsAtom);
   const [__, setRestMappings] = useAtom(Store.restMappingsAtom);
@@ -44,7 +44,7 @@ function App() {
   };
 
   const updateStore = () => {
-    fetch(Config.baseUrl + "/tc/schema?url=" + swaggerUrl)
+    fetch(Config.baseUrl + "/testProject/schema?url=" + swaggerUrl)
       .then((response) => response.json())
       .then((result) => {
         setResolverMappings(JSON.parse(result.resolverMappings));
