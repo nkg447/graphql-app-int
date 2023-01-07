@@ -29,7 +29,7 @@ function SingleFieldModal(props) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography variant="h6" component="h2" color="text.primary">
+        <Typography variant="h6" component="h2" color="primary.main">
           {title}
         </Typography>
         <Typography sx={{ mt: 2 }}>
@@ -40,7 +40,7 @@ function SingleFieldModal(props) {
             style={{ width: "100%" }}
           />
         </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.primary" mt={2}>
+        <Typography sx={{ fontSize: 14 }} color="primary.main" mt={2}>
           <Button
             variant="outlined"
             onClick={() => {
