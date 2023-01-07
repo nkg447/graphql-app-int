@@ -3,6 +3,7 @@ import * as React from "react";
 import Store from "../../../store/store";
 import SchemaTypeCard from "./SchemaTypeCard/SchemaTypeCard";
 import { GraphQLObjectType } from "graphql";
+import CollapsableCard from "../../../component/CollapsableCard/CollapsableCard";
 
 function SchemaUi(props) {
   const [graphQlSchema] = useAtom(Store.graphQlSchemaAtom);
@@ -16,10 +17,15 @@ function SchemaUi(props) {
     .filter((type) => !type.startsWith("__"));
   return (
     <div>
-      {graphQlSchema &&
-        types.map((type) => (
-          <SchemaTypeCard key={type} object={typeMap[type]} />
-        ))}
+      <CollapsableCard
+        title="Object Types"
+        titleTypographyProps={{ variant: "h6" }}
+      >
+        {graphQlSchema &&
+          types.map((type) => (
+            <SchemaTypeCard key={type} object={typeMap[type]} />
+          ))}
+      </CollapsableCard>
     </div>
   );
 }

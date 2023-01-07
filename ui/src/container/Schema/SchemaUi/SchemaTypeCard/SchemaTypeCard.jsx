@@ -96,7 +96,7 @@ function SchemaTypeCard(props) {
     setGraphQlSchema(schemaComposer.clone().buildSchema());
   };
   return (
-    <Box sx={{ minWidth: 275 }} mt={1} maxWidth={"90%"}>
+    <Box sx={{ minWidth: 275 }} mt={1}>
       <CollapsableCard title={object.name} variant={"outlined"}>
         <TextField
           label="Description"
