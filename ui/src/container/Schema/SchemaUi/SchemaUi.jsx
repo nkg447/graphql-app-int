@@ -25,7 +25,7 @@ function SchemaUi(props) {
       <SchemaTypeCard object={queryType} />
       <SchemaTypeCard object={mutationType} />
       <Box sx={{ minWidth: 275, width: "100%" }} mt={1}>
-        <CollapsableCard title="Types" titleTypographyProps={{ variant: "h6" }}>
+        <CollapsableCard title="Types" titleTypographyProps={{ variant: "h6", color: "primary.main" }}>
           {graphQlSchema &&
             types.map((type) => (
               <SchemaTypeCard key={type} object={typeMap[type]} />
@@ -35,7 +35,7 @@ function SchemaUi(props) {
       <Box sx={{ minWidth: 275, width: "100%" }} mt={1}>
         <CollapsableCard
           title="Input Types"
-          titleTypographyProps={{ variant: "h6" }}
+          titleTypographyProps={{ variant: "h6", color: "primary.main" }}
         >
           {graphQlSchema &&
             inputTypes.map((type) => (

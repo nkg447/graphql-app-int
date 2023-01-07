@@ -84,7 +84,7 @@ function SchemaTypeField(props) {
     <Box
       sx={{
         border: 1,
-        borderColor: "primary.dark",
+        borderColor: "info.dark",
         borderRadius: "5px",
         padding: "0.2rem",
         margin: "0.3rem",

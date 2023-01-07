@@ -59,7 +59,7 @@ function MutationResolvers(props) {
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
       <CollapsableCard
         title="Mutation Resolvers"
-        titleTypographyProps={{ variant: "h6" }}
+        titleTypographyProps={{ variant: "h6", color: "primary.main" }}
       >
         {mutationResolvers.map((resolver) => (
           <MutationResolver
