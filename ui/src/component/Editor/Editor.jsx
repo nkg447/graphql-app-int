@@ -5,6 +5,7 @@ import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/mode-graphqlschema";
 import "ace-builds/src-noconflict/theme-twilight";
 import "ace-builds/src-noconflict/theme-terminal";
+import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-solarized_dark";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";

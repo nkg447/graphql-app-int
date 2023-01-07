@@ -12,7 +12,6 @@ const methods = ["GET", "POST", "PATCH", "PUT"];
 
 function RestMapping(props) {
   const { mapping, updateRestMappings } = props;
-  const [collapsed, setCollapsed] = React.useState(false);
   const [name, setName] = React.useState(mapping.name);
   const [endpoint, setEndpoint] = React.useState(mapping.endpoint);
   const [method, setMethod] = React.useState(mapping.method);
