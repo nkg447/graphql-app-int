@@ -3,6 +3,7 @@ package dev.nikunjgupta.graphql.controller;
 import dev.nikunjgupta.graphql.pojo.SaveFilesRequest;
 import dev.nikunjgupta.graphql.service.IGeneratorService;
 import dev.nikunjgupta.graphql.service.IStorageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,22 +13,21 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
+@RequiredArgsConstructor
 public class UiController {
 
-    @Autowired
-    private IStorageService storageService;
-    @Autowired
-    private IGeneratorService generatorService;
+    private final IStorageService storageService;
+    private final IGeneratorService generatorService;
 
-    @RequestMapping(value = "/{projectId}/storage", method = POST)
+    @PostMapping(value = "/{projectId}/storage")
     @ResponseBody
-    public ResponseEntity saveFiles(@PathVariable String projectId,
+    public ResponseEntity<Void> saveFiles(@PathVariable String projectId,
                                     @RequestBody SaveFilesRequest request) throws Exception {
         storageService.saveFiles(projectId, request);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return ResponseEntity.accepted().build();
     }
 
-    @RequestMapping(value = "/{projectId}/schema", method = GET)
+    @GetMapping (value = "/{projectId}/schema")
     @ResponseBody
     public ResponseEntity<SaveFilesRequest> getSchema(@PathVariable String projectId,
                                                       @RequestParam String url) throws Exception {
