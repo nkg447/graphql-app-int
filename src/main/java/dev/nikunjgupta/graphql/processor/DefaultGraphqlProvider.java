@@ -14,6 +14,7 @@ import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import graphql.schema.visibility.DefaultGraphqlFieldVisibility;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,11 +25,11 @@ import java.util.Map;
 import static graphql.schema.idl.RuntimeWiring.newRuntimeWiring;
 
 @Component
+@RequiredArgsConstructor
 public class DefaultGraphqlProvider implements IGraphqlProvider {
     private static final Map<String, GraphQL> PROJECTS_GRAPHQL = new HashMap<>();
 
-    @Autowired
-    private IStorage storage;
+    private final IStorage storage;
 
     @Override
     public GraphQL getGraphQLForProject(String projectId) {

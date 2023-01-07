@@ -6,6 +6,7 @@ import dev.nikunjgupta.graphql.processor.IGraphqlProvider;
 import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class GraphqlController {
 
-    @Autowired
-    private IGraphqlProvider graphqlProvider;
+    private final IGraphqlProvider graphqlProvider;
 
     @RequestMapping(value = "/{projectId}/graphql", method = POST)
     @ResponseBody
