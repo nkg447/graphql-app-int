@@ -52,6 +52,18 @@ type Post {
   user: User
 }
 
+input CreatePostRequest{
+  id: Int
+  body: String
+  title: String
+  userId: Int
+}
+
+type Mutation {
+  "create new Post"
+  createPost(input: CreatePostRequest): Post
+}
+
 type Query {
   "Get all available albums"
   getAlbums(

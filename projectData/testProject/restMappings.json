@@ -140,5 +140,10 @@
     "name": "getUserByUserId",
     "endpoint": "https://jsonplaceholder.typicode.com/users/${userId}",
     "method": "GET"
+  },
+  {
+    "name": "createPost",
+    "endpoint": "https://jsonplaceholder.typicode.com/posts",
+    "method": "POST"
   }
 ]

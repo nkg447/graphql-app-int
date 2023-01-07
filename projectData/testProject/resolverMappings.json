@@ -85,7 +85,14 @@
       }
     }
   ],
-  "mutationResolvers": [],
+  "mutationResolvers": [
+    {
+      "mutation": "createPost",
+      "resolver": {
+        "restName": "createPost"
+      }
+    }
+  ],
   "typeResolvers": [
     {
       "type": "Post",

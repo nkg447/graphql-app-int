@@ -8,8 +8,11 @@ function SchemaUi(props) {
   const [graphQlSchema] = useAtom(Store.graphQlSchemaAtom);
   if (!graphQlSchema) return <div />;
   const typeMap = graphQlSchema.getTypeMap();
+  const queryType = typeMap["Query"];
+  const mutationType = typeMap["Mutation"];
+  debugger;
   return (
-    <div style={{ overflow: "scroll", height: "75vh" }}>
+    <div>
       {graphQlSchema &&
         Object.keys(typeMap)
           .filter((type) => typeMap[type] instanceof GraphQLObjectType)
