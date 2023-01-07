@@ -1,10 +1,12 @@
 import * as React from "react";
 import MuiTextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
+import { Tooltip } from "@mui/material";
 
 function TextField(props) {
-  const { label, value, setTo, style, ...others } = props;
-  return (
+  const { label, value, setTo, style, tooltip, ...others } = props;
+
+  const tetFieldComponent = (
     <MuiTextField
       label={label}
       size="small"
@@ -18,6 +20,12 @@ function TextField(props) {
       {...others}
     />
   );
+
+  if (tooltip) {
+    return <Tooltip title={tooltip}>{tetFieldComponent}</Tooltip>;
+  } else {
+    return tetFieldComponent;
+  }
 }
 
 TextField.propTypes = {
@@ -25,6 +33,7 @@ TextField.propTypes = {
   value: PropTypes.string,
   setTo: PropTypes.func,
   style: PropTypes.object,
+  tooltip: PropTypes.string,
 };
 
 export default TextField;

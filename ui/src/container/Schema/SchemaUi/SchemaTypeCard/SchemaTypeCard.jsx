@@ -1,11 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import Box from "@mui/material/Box";
 import { schemaComposer } from "graphql-compose";
@@ -13,8 +9,8 @@ import { GraphQLObjectType, GraphQLString } from "graphql";
 import { useAtom } from "jotai";
 import Store from "../../../../store/store";
 import SingleFieldModal from "../../../../component/Modal/SingleFieldModal/SingleFieldModal";
-import { CardHeader, Collapse, Tooltip } from "@mui/material";
 import TextField from "../../../../component/TextField/TextField";
+import CollapsableCard from "../../../../component/CollapsableCard/CollapsableCard";
 
 function SchemaTypeField(props) {
   const { field, onDelete, objectName } = props;
@@ -39,15 +35,14 @@ function SchemaTypeField(props) {
         justifyContent: "space-between",
       }}
     >
-      <Tooltip title="Field Name cannot be changed. You can delete and create a new field with the modified name. Or you can change it from the schema text editor">
-        <TextField
-          label="Field Name"
-          value={name}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </Tooltip>
+      <TextField
+        label="Field Name"
+        value={name}
+        InputProps={{
+          readOnly: true,
+        }}
+        tooltip="Field Name cannot be changed. You can delete and create a new field with the modified name. Or you can change it from the schema text editor"
+      />
       <TextField
         label="GraphQl Type"
         value={type}
@@ -77,7 +72,6 @@ function SchemaTypeCard(props) {
   const [_, setGraphQlSchema] = useAtom(Store.graphQlSchemaAtom);
   const [description, setDescription] = React.useState(object.description);
   const [openNewFieldModal, setOpenNewFieldModal] = React.useState(false);
-  const [collapsed, setCollapsed] = React.useState(false);
 
   const fields = object.getFields();
   const objectType = schemaComposer.getOTC(object.name);
@@ -100,55 +94,31 @@ function SchemaTypeCard(props) {
     setGraphQlSchema(schemaComposer.clone().buildSchema());
   };
   return (
-    <Box sx={{ minWidth: 275 }} mt={1} maxWidth={"90%"}>
-      <Card variant="outlined">
-        <React.Fragment>
-          <CardHeader
-            titleTypographyProps={{ variant: "h8" }}
-            title={object.name}
-            onClick={() => setCollapsed(!collapsed)}
-            action={
-              <IconButton
-                onClick={() => setCollapsed(!collapsed)}
-                aria-label="expand"
-                size="small"
-              >
-                {collapsed ? (
-                  <KeyboardArrowUpIcon />
-                ) : (
-                  <KeyboardArrowDownIcon />
-                )}
-              </IconButton>
-            }
+    <Box sx={{ minWidth: 275 }} mt={1}>
+      <CollapsableCard title={object.name} variant={"outlined"}>
+        <TextField
+          label="Description"
+          value={description}
+          setTo={setDescription}
+          onBlur={onBlurHandler}
+          multiline
+        />
+        {Object.keys(fields).map((field) => (
+          <SchemaTypeField
+            key={field}
+            field={fields[field]}
+            onDelete={onDeleteHandler}
+            objectName={object.name}
           />
-          <Collapse in={collapsed} timeout="auto" unmountOnExit>
-            <CardContent>
-              <TextField
-                label="Description"
-                value={description}
-                setTo={setDescription}
-                onBlur={onBlurHandler}
-                multiline
-              />
-              {Object.keys(fields).map((field) => (
-                <SchemaTypeField
-                  key={field}
-                  field={fields[field]}
-                  onDelete={onDeleteHandler}
-                  objectName={object.name}
-                />
-              ))}
-              <IconButton
-                onClick={() => setOpenNewFieldModal(true)}
-                style={{ float: "right" }}
-                aria-label="add"
-              >
-                <AddOutlinedIcon />
-              </IconButton>
-            </CardContent>
-          </Collapse>
-        </React.Fragment>
-      </Card>
+        ))}
+        <IconButton
+          onClick={() => setOpenNewFieldModal(true)}
+          style={{ float: "right" }}
+          aria-label="add"
+        >
+          <AddOutlinedIcon />
+        </IconButton>
+      </CollapsableCard>
       {openNewFieldModal && (
         <SingleFieldModal
           title="Field Name"
