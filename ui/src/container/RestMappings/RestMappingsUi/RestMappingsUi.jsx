@@ -11,7 +11,7 @@ function RestMappingsUi(props) {
   };
 
   return (
-    <div style={{ overflow: "scroll", height: "75vh" }}>
+    <div>
       {restMappings.map((mapping) => (
         <RestMapping
           updateRestMappings={updateRestMappings}
