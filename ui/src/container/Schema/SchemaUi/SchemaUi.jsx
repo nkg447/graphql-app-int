@@ -8,17 +8,18 @@ function SchemaUi(props) {
   const [graphQlSchema] = useAtom(Store.graphQlSchemaAtom);
   if (!graphQlSchema) return <div />;
   const typeMap = graphQlSchema.getTypeMap();
-  const queryType = typeMap["Query"];
-  const mutationType = typeMap["Mutation"];
-  debugger;
+  const queryType = graphQlSchema.getQueryType();
+  const mutationType = graphQlSchema.getMutationType();
+  const types = Object.keys(typeMap)
+    .filter((type) => typeMap[type] instanceof GraphQLObjectType)
+    .filter((type) => !["Query", "Mutation"].includes(type))
+    .filter((type) => !type.startsWith("__"));
   return (
     <div>
       {graphQlSchema &&
-        Object.keys(typeMap)
-          .filter((type) => typeMap[type] instanceof GraphQLObjectType)
-          .filter((type) => !["Query", "Mutation"].includes(type))
-          .filter((type) => !type.startsWith("__"))
-          .map((type) => <SchemaTypeCard key={type} object={typeMap[type]} />)}
+        types.map((type) => (
+          <SchemaTypeCard key={type} object={typeMap[type]} />
+        ))}
     </div>
   );
 }

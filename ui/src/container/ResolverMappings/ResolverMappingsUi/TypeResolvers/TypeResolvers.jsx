@@ -16,6 +16,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import TextField from "../../../../component/TextField/TextField";
+import CollapsableCard from "../../../../component/CollapsableCard/CollapsableCard";
 
 function KeyResolver(props) {
   const { keyResolver, restMappings, updateStore } = props;
@@ -34,55 +35,24 @@ function KeyResolver(props) {
   };
   return (
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
-      <Card style={{ width: "100%", marginLeft: "1rem" }}>
-        <React.Fragment>
-          <CardHeader
-            title={!collapsed && key}
-            titleTypographyProps={{ variant: "h8" }}
-            avatar={
-              collapsed && (
-                <TextField
-                  label="Query Name"
-                  setTo={setKey}
-                  value={key}
-                  onBlur={onBlurHandler}
-                />
-              )
-            }
-            action={
-              <IconButton
-                onClick={() => setCollapsed(!collapsed)}
-                aria-label="expand"
-                size="small"
-              >
-                {collapsed ? (
-                  <KeyboardArrowUpIcon />
-                ) : (
-                  <KeyboardArrowDownIcon />
-                )}
-              </IconButton>
-            }
-          />
-          <Collapse in={collapsed} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Autocomplete
-                disablePortal
-                options={restMappings.map((e) => e.name)}
-                onChange={(e, value) => setRestName(value)}
-                value={restName}
-                renderInput={(params) => (
-                  <TextField label="Rest Mapping" {...params} />
-                )}
-              />
-            </CardContent>
-          </Collapse>
-        </React.Fragment>
-      </Card>
-      <div style={{ margin: "0rem 1rem" }}>
-        <IconButton size="medium">
-          <DeleteOutlineOutlinedIcon />
-        </IconButton>
-      </div>
+      <CollapsableCard
+        title={key}
+        setTitle={(title) => {
+          setKey(title);
+          onBlurHandler();
+        }}
+        deleteable
+      >
+        <Autocomplete
+          disablePortal
+          options={restMappings.map((e) => e.name)}
+          onChange={(e, value) => setRestName(value)}
+          value={restName}
+          renderInput={(params) => (
+            <TextField label="Rest Mapping" {...params} />
+          )}
+        />
+      </CollapsableCard>
     </Box>
   );
 }
@@ -104,56 +74,28 @@ function TypeResolver(props) {
   };
   return (
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
-      <Card variant="outlined" style={{ width: "100%", marginLeft: "1rem" }}>
-        <React.Fragment>
-          <CardHeader
-            title={!collapsed && type}
-            titleTypographyProps={{ variant: "h8" }}
-            avatar={
-              collapsed && (
-                <TextField
-                  label="Type Name"
-                  setTo={setType}
-                  value={type}
-                  onBlur={onBlurHandler}
-                />
-              )
-            }
-            action={
-              <IconButton
-                onClick={() => setCollapsed(!collapsed)}
-                aria-label="expand"
-                size="small"
-              >
-                {collapsed ? (
-                  <KeyboardArrowUpIcon />
-                ) : (
-                  <KeyboardArrowDownIcon />
-                )}
-              </IconButton>
-            }
+      <CollapsableCard
+        title={type}
+        variant={"outlined"}
+        setTitle={(title) => {
+          setType(title);
+          onBlurHandler();
+        }}
+        deleteable
+        onDelete={deleteHandler}
+      >
+        {keyResolvers.map((keyResolver) => (
+          <KeyResolver
+            keyResolver={keyResolver}
+            restMappings={restMappings}
+            updateStore={onBlurHandler}
           />
-          <Collapse in={collapsed} timeout="auto" unmountOnExit>
-            <CardContent>
-              {keyResolvers.map((keyResolver) => (
-                <KeyResolver
-                  keyResolver={keyResolver}
-                  restMappings={restMappings}
-                  updateStore={onBlurHandler}
-                />
-              ))}
-            </CardContent>
-          </Collapse>
-        </React.Fragment>
-      </Card>
-      <div style={{ margin: "0rem 1rem" }}>
-        <IconButton onClick={() => deleteHandler(type)} size="medium">
-          <DeleteOutlineOutlinedIcon />
-        </IconButton>
-      </div>
+        ))}
+      </CollapsableCard>
     </Box>
   );
 }
+
 TypeResolver.propTypes = {
   typeResolver: PropTypes.object.isRequired,
   restMappings: PropTypes.array.isRequired,
@@ -175,33 +117,20 @@ function TypeResolvers(props) {
   if (typeResolvers.length === 0) return null;
   return (
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
-      <Card style={{ width: "100%" }}>
-        <CardHeader
-          title="Type Resolvers"
-          titleTypographyProps={{ variant: "h6" }}
-          action={
-            <IconButton
-              onClick={() => setCollapsed(!collapsed)}
-              aria-label="expand"
-              size="small"
-            >
-              {collapsed ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          }
-        />
-        <Collapse in={collapsed} timeout="auto" unmountOnExit>
-          {typeResolvers.map((resolver) => (
-            <TypeResolver
-              restMappings={restMappings}
-              typeResolver={resolver}
-              key={resolver.type}
-              updateResolverMappings={updateResolverMappings}
-              deleteHandler={typeResolverDeleteHandler}
-            />
-          ))}
-          <div style={{ height: "1rem" }}></div>
-        </Collapse>
-      </Card>
+      <CollapsableCard
+        title="Type Resolvers"
+        titleTypographyProps={{ variant: "h6" }}
+      >
+        {typeResolvers.map((resolver) => (
+          <TypeResolver
+            restMappings={restMappings}
+            typeResolver={resolver}
+            key={resolver.type}
+            updateResolverMappings={updateResolverMappings}
+            deleteHandler={typeResolverDeleteHandler}
+          />
+        ))}
+      </CollapsableCard>
     </Box>
   );
 }
