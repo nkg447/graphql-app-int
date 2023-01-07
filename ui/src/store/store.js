@@ -1,7 +1,17 @@
 import { atom } from "jotai";
 import { printSchema, schemaComposer } from "graphql-compose";
 
-const graphQlSchemaAtom = atom(schemaComposer.buildSchema());
+function generateGraphQlSchema(){
+  schemaComposer.Query.addFields({
+    myFirstQuery: {type: "String"}
+  })
+  schemaComposer.Mutation.addFields({
+    myFirstMutation: {type: "String"}
+  })
+  return schemaComposer.buildSchema()
+}
+
+const graphQlSchemaAtom = atom(generateGraphQlSchema());
 const graphQlSchemaTextAtom = atom((get) =>
   printSchema(get(graphQlSchemaAtom))
 );
