@@ -8,7 +8,7 @@ import Schema from "./container/Schema/Schema";
 import TabPanel from "./component/TabPanel/TabPanel";
 import RestMappings from "./container/RestMappings/RestMappings";
 import TextField from "./component/TextField/TextField";
-import { IconButton } from "@mui/material";
+import { CssBaseline, IconButton } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useAtom } from "jotai";
 import Store from "./store/store";
@@ -17,11 +17,7 @@ import { buildSchema } from "graphql";
 import Config from "./config";
 import ResolverMappings from "./container/ResolverMappings/ResolverMappings";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
+const darkTheme = createTheme(Config.theme);
 const tabIdPrefix = "app";
 function a11yProps(index) {
   return {
@@ -59,6 +55,7 @@ function App() {
 
   return (
     <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
       <div style={{ margin: "1rem" }}>
         <div style={{ display: "flex" }}>
           <TextField
