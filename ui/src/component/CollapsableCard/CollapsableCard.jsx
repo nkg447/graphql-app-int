@@ -14,8 +14,18 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 function CollapsableCard(props) {
-  const { children, title, variant, setTitle, deleteable, onDelete, ...other } =
-    props;
+  const {
+    children,
+    titleLabel,
+    title,
+    variant,
+    setTitle,
+    deleteable,
+    onDelete,
+    setTitleTo,
+    titleOptions,
+    ...other
+  } = props;
   const [collapsed, setCollapsed] = React.useState(false);
   const [cardTitle, setCardTitle] = React.useState(title);
 
@@ -25,14 +35,28 @@ function CollapsableCard(props) {
 
   const cardHeaderProps = {};
   if (setTitle && collapsed) {
-    cardHeaderProps.avatar = (
-      <TextField
-        label="Type Name"
-        setTo={setCardTitle}
-        value={cardTitle}
-        onBlur={onBlurHandler}
-      />
-    );
+    if (titleOptions) {
+      cardHeaderProps.avatar = (
+        <Autocomplete
+          disablePortal
+          options={titleOptions}
+          onChange={(e, value) => (setTitleTo ? setTitleTo(value) : setCardTitle(value))}
+          value={setTitleTo ? title : cardTitle}
+          renderInput={(params) => (
+            <TextField label={titleLabel || ""} {...params} onBlur={onBlurHandler} />
+          )}
+        />
+      );
+    } else {
+      cardHeaderProps.avatar = (
+        <TextField
+          label={titleLabel || ""}
+          setTo={setTitleTo ? setTitleTo : setCardTitle}
+          value={setTitleTo ? title : cardTitle}
+          onBlur={onBlurHandler}
+        />
+      );
+    }
   }
 
   return (
@@ -78,8 +102,10 @@ CollapsableCard.propTypes = {
   title: PropTypes.string.isRequired,
   variant: PropTypes.string,
   setTitle: PropTypes.func,
+  setTitleTo: PropTypes.func,
   deleteable: PropTypes.bool,
   onDelete: PropTypes.func,
+  titleOptions: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default CollapsableCard;

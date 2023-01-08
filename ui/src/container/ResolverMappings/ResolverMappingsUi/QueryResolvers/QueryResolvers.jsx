@@ -8,9 +8,8 @@ import TextField from "../../../../component/TextField/TextField";
 import CollapsableCard from "../../../../component/CollapsableCard/CollapsableCard";
 
 function QueryResolver(props) {
-  const { queryResolver, restMappings, updateResolverMappings } =
-    props;
-  const [query, setQuery] = React.useState(queryResolver.query);
+  const { queryResolver, restMappings, updateResolverMappings } = props;
+  const query = queryResolver.query;
   const [restName, setRestName] = React.useState(
     queryResolver.resolver.restName
   );
@@ -25,14 +24,7 @@ function QueryResolver(props) {
   };
   return (
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
-      <CollapsableCard
-        title={query}
-        variant={"outlined"}
-        setTitle={(title) => {
-          setQuery(title);
-          onBlurHandler();
-        }}
-      >
+      <CollapsableCard title={query} variant={"outlined"}>
         <Autocomplete
           disablePortal
           options={restMappings.map((e) => e.name)}
