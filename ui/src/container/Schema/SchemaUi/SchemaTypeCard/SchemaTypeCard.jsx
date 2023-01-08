@@ -11,10 +11,14 @@ import SingleFieldModal from "../../../../component/Modal/SingleFieldModal/Singl
 import TextField from "../../../../component/TextField/TextField";
 import CollapsableCard from "../../../../component/CollapsableCard/CollapsableCard";
 import SchemaTypeField from "./SchemaTypeField/SchemaTypeField";
+import { cloneDeep } from "lodash";
 
 function SchemaTypeCard(props) {
   const { object } = props;
   const setGraphQlSchema = useAtom(Store.graphQlSchemaAtom)[1];
+  const [resolverMappings, setResolverMappings] = useAtom(
+    Store.resolverMappingsAtom
+  );
   const [description, setDescription] = React.useState(object.description);
   const [openNewFieldModal, setOpenNewFieldModal] = React.useState(false);
 
@@ -30,6 +34,23 @@ function SchemaTypeCard(props) {
     setGraphQlSchema(schemaComposer.clone().buildSchema());
   };
 
+  const createResolver = (name) => {
+    const resolver = {
+      resolver: {
+        restName: "",
+      },
+    };
+    if ("Query" === object.name) {
+      resolver.query = name;
+      resolverMappings.queryResolvers.push(resolver);
+      setResolverMappings(cloneDeep(resolverMappings));
+    } else if ("Mutation" === object.name) {
+      resolver.mutation = name;
+      resolverMappings.mutationResolvers.push(resolver);
+      setResolverMappings(cloneDeep(resolverMappings));
+    }
+  };
+
   const onNewFieldHandler = (name) => {
     const fieldData = {};
     fieldData[name] = {
@@ -37,6 +58,7 @@ function SchemaTypeCard(props) {
     };
     objectType.addFields(fieldData);
     setGraphQlSchema(schemaComposer.clone().buildSchema());
+    createResolver(name);
   };
   return (
     <Box sx={{ minWidth: 275 }} mt={1} style={{ width: "100%" }}>

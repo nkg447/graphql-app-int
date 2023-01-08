@@ -33,8 +33,8 @@ function KeyResolver(props) {
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
       <CollapsableCard
         title={key}
-        setTitle={setKey}
-        deleteable
+        onTitleChanged={setKey}
+        deletable
         onDelete={() => deleteHandler(key)}
         titleOptions={fieldOptions}
       >
@@ -95,9 +95,9 @@ function TypeResolver(props) {
       <CollapsableCard
         title={type}
         variant={"outlined"}
-        setTitle={onBlurHandler}
+        onTitleChanged={onBlurHandler}
         setTitleTo={setType}
-        deleteable
+        deletable
         onDelete={deleteHandler}
         titleOptions={typeOptions}
       >
@@ -157,7 +157,7 @@ function TypeResolvers(props) {
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
       <CollapsableCard
         title="Type Resolvers"
-        titleTypographyProps={{ variant: "h6", color: "primary.main" }}
+        titleTypographyProps={{ variant: "h6" }}
       >
         {typeResolvers.map((resolver) => (
           <TypeResolver

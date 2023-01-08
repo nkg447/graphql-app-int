@@ -52,7 +52,7 @@ function QueryResolvers(props) {
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
       <CollapsableCard
         title="Query Resolvers"
-        titleTypographyProps={{ variant: "h6", color: "primary.main" }}
+        titleTypographyProps={{ variant: "h6" }}
       >
         {queryResolvers.map((resolver) => (
           <QueryResolver

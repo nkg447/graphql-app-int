@@ -68,11 +68,11 @@ function RestMapping(props) {
       <CollapsableCard
         title={name}
         variant={"outlined"}
-        setTitle={(name) => {
+        onTitleChanged={(name) => {
           setName(name);
           onBlurHandler();
         }}
-        deleteable
+        deletable
         onDelete={deleteHandler}
       >
         <Typography variant="span" style={{ display: "flex" }}>

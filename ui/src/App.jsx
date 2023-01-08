@@ -8,7 +8,7 @@ import Schema from "./container/Schema/Schema";
 import TabPanel from "./component/TabPanel/TabPanel";
 import RestMappings from "./container/RestMappings/RestMappings";
 import TextField from "./component/TextField/TextField";
-import { CssBaseline, IconButton } from "@mui/material";
+import { Button, CssBaseline, IconButton, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useAtom } from "jotai";
 import Store from "./store/store";
@@ -28,19 +28,21 @@ function a11yProps(index) {
 
 function App() {
   const [value, setValue] = React.useState(0);
-  const [swaggerUrl, setSwaggerUrl] = React.useState(
-    ""
-  );
-  const [_, setResolverMappings] = useAtom(Store.resolverMappingsAtom);
-  const [__, setRestMappings] = useAtom(Store.restMappingsAtom);
-  const [___, setGraphQlSchema] = useAtom(Store.graphQlSchemaAtom);
+  const [swaggerUrl, setSwaggerUrl] = React.useState("");
+  const [projectId, setProjectId] = React.useState("testProject");
+  const setResolverMappings = useAtom(Store.resolverMappingsAtom)[1];
+  const setRestMappings = useAtom(Store.restMappingsAtom)[1];
+  const setGraphQlSchema = useAtom(Store.graphQlSchemaAtom)[1];
+  const [graphQlSchemaText] = useAtom(Store.graphQlSchemaTextAtom);
+  const [restMappingsText] = useAtom(Store.restMappingsTextAtom);
+  const [resolverMappingsText] = useAtom(Store.resolverMappingsTextAtom);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const updateStore = () => {
-    fetch(Config.baseUrl + "/testProject/schema?url=" + swaggerUrl)
+    fetch(`${Config.baseUrl}/${projectId}/schema?url=${swaggerUrl}`)
       .then((response) => response.json())
       .then((result) => {
         setResolverMappings(JSON.parse(result.resolverMappings));
@@ -53,11 +55,32 @@ function App() {
       .catch((error) => console.log("error", error));
   };
 
+  const submitHandler = () => {
+    fetch(`${Config.baseUrl}/${projectId}/storage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        schema: graphQlSchemaText,
+        restMappings: restMappingsText,
+        resolverMappings: resolverMappingsText,
+      }),
+    })
+      .catch((error) => console.error("error", error));
+  };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <div style={{ margin: "1rem" }}>
         <div style={{ display: "flex" }}>
+          <TextField
+            label="Project ID"
+            value={projectId}
+            setTo={setProjectId}
+            style={{ width: "30%" }}
+          />
           <TextField
             label="Swagger URL"
             value={swaggerUrl}
@@ -98,9 +121,16 @@ function App() {
             <RestMappings />
           </TabPanel>
           <TabPanel idPrefix={tabIdPrefix} value={value} index={2}>
-            <ResolverMappings/>
+            <ResolverMappings />
           </TabPanel>
         </Box>
+        <Button
+          style={{ float: "right" }}
+          onClick={submitHandler}
+          variant="outlined"
+        >
+          Submit
+        </Button>
       </div>
     </ThemeProvider>
   );

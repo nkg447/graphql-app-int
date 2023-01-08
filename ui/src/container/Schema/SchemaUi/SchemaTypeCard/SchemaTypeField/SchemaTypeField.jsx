@@ -33,15 +33,15 @@ function ArgType(props) {
     <div style={{ display: "flex", alignItems: "center" }}>
       <TextField label="Argument Name" value={name} setTo={setName} disabled />
       <TextField
-        label="Argument Description"
-        value={description}
-        setTo={setDescription}
-        onBlur={onBlurHandler}
-      />
-      <TextField
         label="Argument Type"
         value={type}
         setTo={setType}
+        onBlur={onBlurHandler}
+      />
+      <TextField
+        label="Argument Description"
+        value={description}
+        setTo={setDescription}
         onBlur={onBlurHandler}
       />
       <IconButton onClick={onDeleteHandler}>
