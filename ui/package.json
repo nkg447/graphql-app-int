@@ -15,6 +15,7 @@
     "graphql-compose": "^9.0.10",
     "jotai": "^1.12.1",
     "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-ace": "^10.1.0",
     "react-dom": "^18.2.0",

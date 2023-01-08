@@ -19,8 +19,8 @@ function CollapsableCard(props) {
     titleLabel,
     title,
     variant,
-    setTitle,
-    deleteable,
+    onTitleChanged,
+    deletable,
     onDelete,
     setTitleTo,
     titleOptions,
@@ -30,11 +30,11 @@ function CollapsableCard(props) {
   const [cardTitle, setCardTitle] = React.useState(title);
 
   const onBlurHandler = () => {
-    setTitle(cardTitle);
+    onTitleChanged(cardTitle);
   };
 
   const cardHeaderProps = {};
-  if (setTitle && collapsed) {
+  if (onTitleChanged && collapsed) {
     if (titleOptions) {
       cardHeaderProps.avatar = (
         <Autocomplete
@@ -64,8 +64,8 @@ function CollapsableCard(props) {
       <Card variant={variant} style={{ width: "100%" }}>
         <React.Fragment>
           <CardHeader
-            title={(!collapsed || !setTitle) && cardTitle}
-            titleTypographyProps={{ variant: "h8", color: "secondary.main" }}
+            title={(!collapsed || !onTitleChanged) && cardTitle}
+            titleTypographyProps={{ variant: "h8"}}
             {...cardHeaderProps}
             action={
               <IconButton
@@ -87,7 +87,7 @@ function CollapsableCard(props) {
           </Collapse>
         </React.Fragment>
       </Card>
-      {deleteable && (
+      {deletable && (
         <div style={{ margin: "0rem 1rem" }}>
           <IconButton onClick={() => onDelete(title)} size="medium">
             <DeleteOutlineOutlinedIcon />
@@ -101,9 +101,9 @@ CollapsableCard.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string.isRequired,
   variant: PropTypes.string,
-  setTitle: PropTypes.func,
+  onTitleChanged: PropTypes.func,
   setTitleTo: PropTypes.func,
-  deleteable: PropTypes.bool,
+  deletable: PropTypes.bool,
   onDelete: PropTypes.func,
   titleOptions: PropTypes.arrayOf(PropTypes.string),
 };
