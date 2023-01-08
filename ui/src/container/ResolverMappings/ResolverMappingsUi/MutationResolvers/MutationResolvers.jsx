@@ -9,7 +9,7 @@ import CollapsableCard from "../../../../component/CollapsableCard/CollapsableCa
 
 function MutationResolver(props) {
   const { mutationResolver, restMappings, updateResolverMappings } = props;
-  const [mutation, setMutation] = React.useState(mutationResolver.mutation);
+  const mutation = mutationResolver.mutation;
   const [restName, setRestName] = React.useState(
     mutationResolver.resolver.restName
   );
@@ -24,14 +24,7 @@ function MutationResolver(props) {
   };
   return (
     <Box sx={{ minWidth: 275, display: "flex", width: "100%" }} mt={1}>
-      <CollapsableCard
-        title={mutation}
-        variant={"outlined"}
-        setTitle={(title) => {
-          setMutation(title);
-          onBlurHandler();
-        }}
-      >
+      <CollapsableCard title={mutation} variant={"outlined"}>
         <Autocomplete
           disablePortal
           options={restMappings.map((e) => e.name)}

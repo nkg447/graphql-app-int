@@ -7,6 +7,7 @@ import { useAtom } from "jotai";
 import Store from "../../../../store/store";
 import { cloneDeep } from "lodash";
 import CollapsableCard from "../../../../component/CollapsableCard/CollapsableCard";
+import Editor from "../../../../component/Editor/Editor";
 
 const methods = ["GET", "POST", "PATCH", "PUT"];
 
@@ -49,8 +50,8 @@ function RestMapping(props) {
     }
     mapping.endpoint = endpoint;
     mapping.method = method;
-    mapping.headers = JSON.parse(headers);
-    mapping.queryParams = JSON.parse(queryParams);
+    mapping.headers = JSON.parse(headers?headers:"{}");
+    mapping.queryParams = JSON.parse(queryParams?queryParams:"[]");
     mapping.requestBody = requestBody;
     updateRestMappings(restMappings);
   };
@@ -116,15 +117,16 @@ function RestMapping(props) {
           />
         </Typography>
         {method !== "GET" && (
-          <TextField
-            label="Request Body"
-            value={requestBody}
-            setTo={setRequestBody}
-            onBlur={onBlurHandler}
-            multiline
-            rows={2}
-            fullwidth
-          />
+          <>
+            <Typography>Request Body</Typography>
+            <Editor
+              mode="json"
+              value={requestBody}
+              changeHandler={onBlurHandler}
+              setTo={setRequestBody}
+              style={{ height: "100px", width: "100%" }}
+            />
+          </>
         )}
       </CollapsableCard>
     </Box>
