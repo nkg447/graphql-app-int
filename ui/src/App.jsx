@@ -8,7 +8,7 @@ import Schema from "./container/Schema/Schema";
 import TabPanel from "./component/TabPanel/TabPanel";
 import RestMappings from "./container/RestMappings/RestMappings";
 import TextField from "./component/TextField/TextField";
-import { Button, CssBaseline, IconButton, Typography } from "@mui/material";
+import {Button, CssBaseline, IconButton, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useAtom } from "jotai";
 import Store from "./store/store";
@@ -16,6 +16,7 @@ import { schemaComposer } from "graphql-compose";
 import { buildSchema } from "graphql";
 import Config from "./config";
 import ResolverMappings from "./container/ResolverMappings/ResolverMappings";
+import AppBar from "./container/AppBar/AppBar";
 
 const darkTheme = createTheme(Config.theme);
 const tabIdPrefix = "app";
@@ -73,7 +74,8 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <div style={{ margin: "1rem" }}>
+      <AppBar/>
+      <div style={{ margin: "1rem", marginTop: "55px" }}>
         <div style={{ display: "flex" }}>
           <TextField
             label="Project ID"
