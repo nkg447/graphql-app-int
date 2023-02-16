@@ -1,6 +1,7 @@
 
 query{
-    getPosts(id: 1){
+    getPosts(id: 2){
+        id
         body
         user {
             username

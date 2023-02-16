@@ -10,6 +10,11 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SingleFieldModal from "../../../component/Modal/SingleFieldModal/SingleFieldModal";
 import { schemaComposer } from "graphql-compose";
 
+const dummyMutation={
+  getFields: ()=>[],
+  name: "Mutation"
+}
+
 function SchemaUi(props) {
   const [graphQlSchema, setGraphQlSchema] = useAtom(Store.graphQlSchemaAtom);
   const [openNewTypeModal, setOpenNewTypeModal] = React.useState(false);
@@ -59,7 +64,7 @@ function SchemaUi(props) {
   return (
     <div>
       <SchemaTypeCard object={queryType} />
-      {mutationType && <SchemaTypeCard object={mutationType} />}
+      {mutationType? <SchemaTypeCard object={mutationType} /> :<SchemaTypeCard object={dummyMutation} />}
       <Box sx={{ minWidth: 275, width: "100%" }} mt={1}>
         <CollapsableCard title="Types" titleTypographyProps={{ variant: "h6" }}>
           {graphQlSchema &&
