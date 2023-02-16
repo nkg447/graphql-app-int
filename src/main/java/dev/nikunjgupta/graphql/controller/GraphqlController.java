@@ -7,7 +7,6 @@ import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +25,8 @@ public class GraphqlController {
 
     @RequestMapping(value = "/{projectId}/graphql", method = POST)
     @ResponseBody
-    public ResponseEntity<Map> getData(@PathVariable String projectId, @RequestBody Map<String, Object> request) throws JsonProcessingException {
+    public ResponseEntity<Map> getData(@PathVariable String projectId, @RequestBody Map<String,
+            Object> request) throws JsonProcessingException {
         try {
             GraphQL graphQL = graphqlProvider.getGraphQLForProject(projectId);
             ExecutionInput input = getExecutionInput(request);
@@ -37,7 +37,8 @@ public class GraphqlController {
             return new ResponseEntity<>(executionResult.getData(), null, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getLocalizedMessage()), null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Collections.singletonMap("error",
+                    e.getLocalizedMessage()), null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
