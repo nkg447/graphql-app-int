@@ -59,7 +59,7 @@ function SchemaUi(props) {
   return (
     <div>
       <SchemaTypeCard object={queryType} />
-      <SchemaTypeCard object={mutationType} />
+      {mutationType && <SchemaTypeCard object={mutationType} />}
       <Box sx={{ minWidth: 275, width: "100%" }} mt={1}>
         <CollapsableCard title="Types" titleTypographyProps={{ variant: "h6" }}>
           {graphQlSchema &&
